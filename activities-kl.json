@@ -1,0 +1,242 @@
+[
+  {
+    "name": "Jalan Alor Night Food Street",
+    "category": "food",
+    "blurb": "KL's most famous open-air street food strip. Plastic stools, smoky woks, and dozens of stalls running until late — chicken wings, satay, char kway teow, durian.",
+    "tips": "Wong Ah Wah for legendary BBQ chicken wings. Cash speeds things up. Avoid touts at the entrance; walk past for better-priced stalls deeper in.",
+    "getting_there": "Monorail Bukit Bintang, then 5 min walk through the Changkat area.",
+    "photo_url": "./photos-kl/jalan-alor-night-food-street.webp"
+  },
+  {
+    "name": "Lot 10 Hutong Food Court",
+    "category": "food",
+    "blurb": "Basement food court that hand-picked legendary hawker stalls from across Malaysia — many third-generation, including the famous Soong Kee beef noodles.",
+    "tips": "Go for an early lunch (11.30am) before the office crowd. Hokkien mee at Kim Lian Kee is the move. Aircon — perfect midday refuge.",
+    "getting_there": "Monorail Bukit Bintang, Lot 10 mall basement (LG floor).",
+    "photo_url": "./photos-kl/lot-10-hutong-food-court.jpg"
+  },
+  {
+    "name": "Petronas Twin Towers & KLCC Park",
+    "category": "sights",
+    "blurb": "The iconic 452m twin towers with a Skybridge between them. KLCC Park below has a free playground, splash pad, and the best photo angle of the towers.",
+    "tips": "Skybridge tickets sell out — book online days ahead. Symphony Lake fountain show: 8pm, 9pm, 10pm. Splash pad opens 10am, kids go wild.",
+    "getting_there": "LRT KLCC, direct connection to Suria KLCC mall and the towers.",
+    "photo_url": "./photos-kl/petronas-twin-towers-klcc-park.webp"
+  },
+  {
+    "name": "Batu Caves",
+    "category": "culture",
+    "blurb": "Massive limestone cave temple complex with the iconic 42m gold Murugan statue and 272 rainbow steps. Macaques everywhere — entertaining and cheeky.",
+    "tips": "Go before 9am to beat the heat and crowds. Cover knees and shoulders. Don't bring visible food or sunglasses (monkeys will grab them).",
+    "getting_there": "KTM Komuter from KL Sentral direct to Batu Caves station — 30 min, very cheap.",
+    "photo_url": "./photos-kl/batu-caves.jpg"
+  },
+  {
+    "name": "Central Market (Pasar Seni)",
+    "category": "culture",
+    "blurb": "Art deco heritage building turned craft and souvenir bazaar. Batik, songket, pewter, and a quieter Annexe gallery upstairs. Air-conditioned and toddler-friendly.",
+    "tips": "Prices are flexible — polite haggling is expected. The Kasturi Walk lane outside has cheap eats and street performers in the evening.",
+    "getting_there": "LRT Pasar Seni, exit directly into the building.",
+    "photo_url": "./photos-kl/central-market-pasar-seni.webp"
+  },
+  {
+    "name": "Madras Lane Hawker Stalls",
+    "category": "food",
+    "blurb": "Tucked-away alley behind Petaling Street with iconic stalls: yong tau foo, curry mee, and the legendary chee cheong fun. Pure old-school KL.",
+    "tips": "Go before 11am — many stalls sell out by lunch. Cash only. The curry mee with cockles is the signature; not for the squeamish but worth it.",
+    "getting_there": "LRT Pasar Seni, walk through Petaling Street, look for the side alley near Hong Leong Bank.",
+    "photo_url": "./photos-kl/madras-lane-hawker-stalls.webp"
+  },
+  {
+    "name": "Petaling Street (Chinatown)",
+    "category": "culture",
+    "blurb": "Covered market street under a green roof — knockoff goods, dried foods, herbal medicine shops, and excellent street food. Atmospheric and chaotic.",
+    "tips": "Famous for fake luxury goods — quality varies wildly. Don't buy the first price quoted. Air Mata Kuching (longan iced drink) at the top of the street is a must.",
+    "getting_there": "LRT Pasar Seni, 5 min walk.",
+    "photo_url": "./photos-kl/petaling-street-chinatown.jpg"
+  },
+  {
+    "name": "Sunway Lagoon Theme Park",
+    "category": "kids",
+    "blurb": "Six themed parks in one: Water Park, Amusement Park, Wildlife Park, Extreme Park, Scream Park, and Nickelodeon Lost Lagoon. World's largest man-made surf beach.",
+    "tips": "All-day pass is the way. Bring waterproof phone bag — ride lockers cost extra. Sunway Pyramid mall next door has good food when you're done.",
+    "getting_there": "BRT Sunway Line to USJ 7, then short walk. Or Grab — about 30 min from KLCC.",
+    "photo_url": "./photos-kl/sunway-lagoon-theme-park.jpg"
+  },
+  {
+    "name": "Imbi Market (ICC Pudu)",
+    "category": "food",
+    "blurb": "Locals' breakfast institution. Wet market with a hawker section serving banh xeo, pork noodles, sui kow, and Sister Ho's nostalgic Hainanese chicken rice.",
+    "tips": "Get there by 8am — best stalls close by 11am. Bubur cha cha and ondeh ondeh from Ah Weng Koh's stall are legendary.",
+    "getting_there": "Monorail Imbi station, 5 min walk to ICC Pudu building.",
+    "photo_url": "./photos-kl/imbi-market-icc-pudu.jpg"
+  },
+  {
+    "name": "KL Bird Park",
+    "category": "kids",
+    "blurb": "World's largest free-flight walk-in aviary, set in the green Lake Gardens area. Hornbills, peacocks, and flamingos wandering the paths. Stroller-friendly.",
+    "tips": "Bird feeding shows at 12.30pm and 3.30pm. Go in the morning before it gets blazing. Combine with the Butterfly Park nearby for a full half-day.",
+    "getting_there": "Grab from KL Sentral (~10 min). KTM Kuala Lumpur station also walkable.",
+    "photo_url": "./photos-kl/kl-bird-park.jpg"
+  },
+  {
+    "name": "Kampung Baru Nasi Lemak Antarabangsa",
+    "category": "food",
+    "blurb": "Legendary roadside nasi lemak joint open practically 24 hours, in the last Malay village in central KL. Wooden houses next to glass towers — surreal vibe.",
+    "tips": "Pair the nasi lemak with rendang or sambal sotong. Late-night here is iconic. Walk Kampung Baru's streets after — the kampung-vs-skyline contrast is unique.",
+    "getting_there": "LRT Kampung Baru station, 5 min walk down Jalan Raja Muda Musa.",
+    "photo_url": "./photos-kl/kampung-baru-nasi-lemak-antarabangsa.jpg"
+  },
+  {
+    "name": "Restoran Yut Kee (Hainanese Kopitiam)",
+    "category": "food",
+    "blurb": "Operating since 1928. Old-school Hainanese chicken chop, roti babi, kaya toast, and marble cake. A living slice of pre-war KL.",
+    "tips": "Closed Mondays. Go for breakfast or early lunch — they sell out. Cash only. Order roti babi if available; rare and excellent.",
+    "getting_there": "Monorail Medan Tuanku, 5 min walk to Jalan Kamunting.",
+    "photo_url": "./photos-kl/restoran-yut-kee-hainanese-kopitiam.webp"
+  },
+  {
+    "name": "Thean Hou Temple",
+    "category": "culture",
+    "blurb": "Six-tier hilltop Chinese temple with sweeping KL views, lantern-lined courtyards, and dragon-pillared halls. Particularly stunning during Chinese New Year.",
+    "tips": "Free entry. Sunset light is gorgeous for photos. Quiet on weekday mornings, packed on weekends with wedding photoshoots.",
+    "getting_there": "Grab from KL Sentral (~10 min) — public transport access is awkward.",
+    "photo_url": "./photos-kl/thean-hou-temple.jpg"
+  },
+  {
+    "name": "Putrajaya Day Trip",
+    "category": "sights",
+    "blurb": "Malaysia's planned administrative capital, 30km south of KL. Pink mosque on the lake, futuristic bridges, manicured boulevards, and lake cruises.",
+    "tips": "Putra Mosque allows visitors outside prayer times — robes provided. Lake cruise is cheap and a great way to see all the bridges. Cool early morning visit.",
+    "getting_there": "KLIA Transit train from KL Sentral to Putrajaya & Cyberjaya station, then Grab.",
+    "photo_url": "./photos-kl/putrajaya-day-trip.jpg"
+  },
+  {
+    "name": "Kepong Wet Market Breakfast",
+    "category": "food",
+    "blurb": "Suburban morning market beloved by locals. Real-deal Hong Kong-style dim sum at Mun Wah, plus chee cheong fun stalls, fresh soy milk, and fried fritters.",
+    "tips": "Get there by 7-8am for peak freshness. Mun Wah dim sum: order the har gow and char siu bao. Walking through the wet market itself is half the experience.",
+    "getting_there": "MRT Kepong Sentral, then short Grab to Jalan 2/62A.",
+    "photo_url": "./photos-kl/kepong-wet-market-breakfast.webp"
+  },
+  {
+    "name": "Aquaria KLCC",
+    "category": "kids",
+    "blurb": "90m underwater tunnel with sharks, stingrays, and giant groupers passing overhead. Smaller tanks with otters, seahorses, and a piranha pool. Solid rainy-day option.",
+    "tips": "Go right at opening (10am) to walk the tunnel without crowds. Combo tickets with KL Tower if doing both. Allow 1.5 hours.",
+    "getting_there": "LRT KLCC, in the basement of the KL Convention Centre.",
+    "photo_url": "./photos-kl/aquaria-klcc.jpg"
+  },
+  {
+    "name": "Masjid Jamek & Merdeka Square",
+    "category": "culture",
+    "blurb": "Moorish-style mosque at the river confluence where KL was founded, plus the colonial-era Merdeka Square nearby (where Malaysia's independence was declared).",
+    "tips": "Visit the mosque outside prayer times; modest dress provided free. The River of Life walk along the Klang river is pleasant in the evening.",
+    "getting_there": "LRT Masjid Jamek, exit directly at the mosque.",
+    "photo_url": "./photos-kl/masjid-jamek-merdeka-square.jpg"
+  },
+  {
+    "name": "Genting Highlands",
+    "category": "kids",
+    "blurb": "Mountain casino-and-theme-park resort at 1,800m. Cool 18°C air, an outdoor theme park, indoor SkyTropolis park, and the world's longest cable car ride up.",
+    "tips": "Bring a jacket — it's genuinely cold. Cable car (Awana Skyway) is the experience. Buy theme park tickets online for big discounts. Expect crowds on weekends.",
+    "getting_there": "Bus from KL Sentral (1 hr) to Awana Skyway, then cable car to the top.",
+    "photo_url": "./photos-kl/genting-highlands.jpg"
+  },
+  {
+    "name": "Restoran Sek Yuen (1948)",
+    "category": "food",
+    "blurb": "Cantonese institution unchanged since the 1940s — wood-fired wok, ancient kitchen, and signature dishes like pei pa duck and yin yong egg.",
+    "tips": "Closed Tuesdays. Reserve ahead — small space, big reputation. The pei pa duck takes 30 min — order on arrival. Cash preferred.",
+    "getting_there": "Grab to Jalan Pudu — short ride from Bukit Bintang.",
+    "photo_url": "./photos-kl/restoran-sek-yuen-1948.webp"
+  },
+  {
+    "name": "KL Tower (Menara KL) & Forest Reserve",
+    "category": "sights",
+    "blurb": "421m tower on a hill in a 100-year-old protected rainforest right in the city. Sky deck, observation deck, and a free canopy walkway in the forest below.",
+    "tips": "Sky Deck (open-air glass box) costs more than the standard observation deck and is worth it. Bukit Nanas Forest Reserve walk is free — short but lovely.",
+    "getting_there": "Monorail Bukit Nanas, then short walk uphill or shuttle bus from the entrance.",
+    "photo_url": "./photos-kl/kl-tower-menara-kl-forest-reserve.jpg"
+  },
+  {
+    "name": "SS2 Pasar Malam (Monday Night Market)",
+    "category": "food",
+    "blurb": "Sprawling Monday-night market in Petaling Jaya — fresh fruit, durian, fried snacks, apam balik, otak-otak, popiah. Locals' weekly ritual.",
+    "tips": "Goes 5pm to ~10pm. Bring small bills. The apam balik (peanut pancake) and freshly fried popiah are essentials. Parking is hellish; Grab in.",
+    "getting_there": "Grab to SS2, Petaling Jaya — about 30 min from central KL.",
+    "photo_url": "./photos-kl/ss2-pasar-malam-monday-night-market.webp"
+  },
+  {
+    "name": "Jalan Bangkung (Bangsar Hipster Strip)",
+    "category": "food",
+    "blurb": "Trendy Bangsar street with quality cafes, gelato, izakayas, and craft cocktail bars. Slower, leafier vibe than Bukit Bintang. Good for a chill evening.",
+    "tips": "Mid-morning weekends are perfect for cafe-hopping with kids — most have outdoor seating. Pulp by Papa Palheta for coffee, Inside Scoop for ice cream.",
+    "getting_there": "Grab from city center (~15 min). LRT Bangsar is a 10-min walk away.",
+    "photo_url": "./photos-kl/jalan-bangkung-bangsar-hipster-strip.jpg"
+  },
+  {
+    "name": "FRIM (Forest Research Institute) Canopy Walk",
+    "category": "kids",
+    "blurb": "200-hectare rainforest reserve 30 min from KL, with a 200m-long canopy walkway 30m above the forest floor. Real jungle without leaving the city.",
+    "tips": "Canopy walk closes Mondays and during rain. Get there by 9am — slots fill up. Wear proper shoes; trail to canopy is uphill.",
+    "getting_there": "Grab to FRIM Kepong — public transport not practical.",
+    "photo_url": "./photos-kl/frim-forest-research-institute-canopy-walk.webp"
+  },
+  {
+    "name": "Restoran Win Heng Seng (Pork Noodles)",
+    "category": "food",
+    "blurb": "Coffee shop near KLCC famous for one thing: char siew rice and the legendary Imbi-style pork noodles with raw egg stirred in.",
+    "tips": "Closed Tuesdays. Get there before 11am — they routinely sell out. The char siew is dark, sticky, and excellent. Cash only.",
+    "getting_there": "Monorail Imbi, 5 min walk to Jalan Yew/Pudu area.",
+    "photo_url": "./photos-kl/restoran-win-heng-seng-pork-noodles.jpg"
+  },
+  {
+    "name": "Islamic Arts Museum",
+    "category": "culture",
+    "blurb": "One of Southeast Asia's best museums — calligraphy, textiles, Quran manuscripts, and a stunning architecture gallery with miniature mosques.",
+    "tips": "Underrated. Aircon, beautifully designed, never crowded. Cafe inside is excellent for lunch. Free shoulder shawls if needed.",
+    "getting_there": "Grab from KL Sentral or KTM Kuala Lumpur. Adjacent to the National Mosque.",
+    "photo_url": "./photos-kl/islamic-arts-museum.jpg"
+  },
+  {
+    "name": "Devi's Corner (Bangsar Banana Leaf)",
+    "category": "food",
+    "blurb": "24-hour Indian-Muslim mamak with the city's best banana leaf rice — fluffy rice, rotating veg sides, and crispy fried chicken or fish curry.",
+    "tips": "The 'set' banana leaf is the move — they keep refilling sides. Roti canai for breakfast or post-midnight is iconic. Open all hours.",
+    "getting_there": "Grab to Bangsar — about 15 min from KLCC.",
+    "photo_url": "./photos-kl/devi-s-corner-bangsar-banana-leaf.jpg"
+  },
+  {
+    "name": "TRX (Tun Razak Exchange) Park & Rooftop",
+    "category": "sights",
+    "blurb": "KL's newest skyscraper district with a 10-acre rooftop park atop The Exchange TRX mall. Skyline views, kids' play areas, and dining without entry fee.",
+    "tips": "Free access via mall lifts. Best at sunset. The mall itself has flagship F&B that's actually good. Air-conditioned escape route on hot days.",
+    "getting_there": "MRT Tun Razak Exchange, direct connection to the mall.",
+    "photo_url": "./photos-kl/trx-tun-razak-exchange-park-rooftop.webp"
+  },
+  {
+    "name": "Chow Kit Wet Market",
+    "category": "food",
+    "blurb": "KL's largest wet market — gritty, real, and unfiltered. Live seafood, exotic fruits, halal meats, and a hawker section serving Malay breakfast classics.",
+    "tips": "Best 7-10am. The Bazaar Baru stretches across multiple buildings. Try nasi lemak bungkus and kuih from the morning stalls. Wear shoes you don't mind getting wet.",
+    "getting_there": "Monorail Chow Kit, 5 min walk.",
+    "photo_url": "./photos-kl/chow-kit-wet-market.jpg"
+  },
+  {
+    "name": "Jalan Alor Durian Stalls",
+    "category": "food",
+    "blurb": "Same street as the night food market, but mid-afternoon onward you'll find a row of dedicated durian stalls — Musang King, D24, XO, all the premium varieties.",
+    "tips": "Prices vary wildly — get a quote per kg before pointing. Eat on-site (most hotels ban durian). Pair with mangosteen, sold at the same stalls.",
+    "getting_there": "Monorail Bukit Bintang, 5 min walk.",
+    "photo_url": "./photos-kl/jalan-alor-durian-stalls.jpg"
+  },
+  {
+    "name": "Perdana Botanical Gardens",
+    "category": "kids",
+    "blurb": "Sprawling green park in the historic Lake Gardens area. Free playgrounds, paddle boats on the lake, deer enclosure, and shaded paths. Locals' weekend escape.",
+    "tips": "Free entry. Stroller-friendly main paths. Combine with Bird Park, Butterfly Park, or Islamic Arts Museum nearby for a full day.",
+    "getting_there": "KTM Kuala Lumpur or Grab from KL Sentral. Multiple entry gates.",
+    "photo_url": "./photos-kl/perdana-botanical-gardens.jpg"
+  }
+]

@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Activity Cards · Singapore</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+  @page {
+    size: A4 portrait;
+    margin: 10mm;
+  }
+
+  :root {
+    --c-sights:  #4a9fd1;
+    --c-food:    #f97316;
+    --c-kids:    #c084fc;
+    --c-nature:  #4ade80;
+    --c-culture: #fbbf24;
+
+    --ink: #ffffff;
+    --rule: rgba(255,255,255,0.25);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Source Serif Pro', 'Charter', Georgia, 'Times New Roman', serif;
+    color: var(--ink);
+    background: #f4f4f1;
+    font-size: 10pt;
+    line-height: 1.4;
+  }
+
+  /* ---------- Toolbar ---------- */
+  .toolbar {
+    position: sticky;
+    top: 0;
+    background: #1a1a1a;
+    color: #fff;
+    padding: 14px 20px;
+    z-index: 100;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 12px;
+  }
+  .toolbar button {
+    background: #fff;
+    color: #1a1a1a;
+    border: none;
+    padding: 8px 14px;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.02em;
+    border-radius: 2px;
+  }
+  .toolbar button:hover { background: #e5e5e5; }
+  .toolbar select {
+    background: #fff;
+    color: #1a1a1a;
+    border: none;
+    padding: 8px 12px;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 2px;
+    margin-right: 8px;
+  }
+  .toolbar button.primary {
+    background: #4ade80;
+    color: #000;
+  }
+  .toolbar button.primary:hover { background: #22c55e; }
+  .toolbar button.danger {
+    background: transparent;
+    color: #fca5a5;
+    border: 1px solid #7f1d1d;
+  }
+  .toolbar button.danger:hover { background: #7f1d1d; color: #fff; }
+  .toolbar .hint { color: #999; font-size: 11px; line-height: 1.5; flex: 1; min-width: 280px; }
+  .toolbar .status {
+    background: #333;
+    padding: 6px 10px;
+    border-radius: 2px;
+    color: #4ade80;
+    font-size: 11px;
+  }
+
+  /* ---------- Pages ---------- */
+  .page {
+    width: 210mm;
+    height: 297mm;
+    padding: 10mm;
+    margin: 16px auto;
+    background: white;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 4mm;
+    page-break-after: always;
+  }
+  .page:last-child { page-break-after: auto; }
+
+  /* ---------- Card ---------- */
+  .card {
+    position: relative;
+    overflow: hidden;
+    background-color: #2a2a2a;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    border: 1px dashed #999;
+    transition: outline 0.15s;
+  }
+
+  .card.no-photo {
+    background: repeating-linear-gradient(
+      45deg,
+      #2a2a2a,
+      #2a2a2a 10px,
+      #333 10px,
+      #333 20px
+    );
+  }
+
+  .card.drag-over {
+    outline: 4px solid #4ade80;
+    outline-offset: -4px;
+  }
+
+  /* Background photo as a real img element — prints reliably */
+  .card-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  /* Top accent strip */
+  .card-accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4mm;
+    background: var(--accent);
+    z-index: 2;
+  }
+
+  /* Text block — solid dark band at bottom, easy to read on any photo */
+  .card-text {
+    position: relative;
+    z-index: 2;
+    background: rgba(20, 20, 20, 0.92);
+    color: white;
+    padding: 5mm 6mm 6mm;
+    margin: auto 4mm 4mm;
+    border-radius: 1mm;
+  }
+
+  /* When no photo, let the text block fill the card */
+  .card.no-photo .card-text {
+    background: transparent;
+    margin: auto 0 0;
+    padding: 8mm 7mm 7mm;
+  }
+
+  .cat-tag {
+    position: absolute;
+    top: 5mm;
+    right: 7mm;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 7pt;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--accent);
+    padding: 1.5mm 3mm;
+    font-weight: 700;
+    z-index: 3;
+    border-radius: 1mm;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.2);
+  }
+
+  .drop-hint {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: ui-monospace, monospace;
+    font-size: 9pt;
+    color: rgba(255,255,255,0.6);
+    text-align: center;
+    z-index: 2;
+    pointer-events: none;
+    border: 2px dashed rgba(255,255,255,0.3);
+    padding: 6mm 8mm;
+    border-radius: 2mm;
+  }
+  .card:not(.no-photo) .drop-hint { display: none; }
+
+  .photo-controls {
+    position: absolute;
+    top: 5mm;
+    left: 7mm;
+    z-index: 4;
+    display: flex;
+    gap: 4px;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .card:hover .photo-controls { opacity: 1; }
+  .card.no-photo .photo-controls { display: none; }
+
+  .photo-controls button {
+    background: rgba(0,0,0,0.7);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 3px 8px;
+    font-family: ui-monospace, monospace;
+    font-size: 9px;
+    cursor: pointer;
+    border-radius: 2px;
+  }
+  .photo-controls button:hover { background: rgba(0,0,0,0.9); }
+
+  /* Google Images search shortcut — visible on screen only */
+  .photo-search {
+    position: absolute;
+    bottom: 4mm;
+    right: 5mm;
+    z-index: 4;
+    background: rgba(0,0,0,0.7);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 3px 8px;
+    font-family: ui-monospace, monospace;
+    font-size: 9px;
+    text-decoration: none;
+    border-radius: 2px;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .card:hover .photo-search { opacity: 1; }
+  .photo-search:hover { background: rgba(0,0,0,0.9); }
+
+  .name {
+    font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+    font-size: 18pt;
+    line-height: 1.05;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 2.5mm 0;
+    letter-spacing: -0.01em;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.5);
+  }
+
+  .blurb {
+    font-size: 8.5pt;
+    line-height: 1.4;
+    color: rgba(255,255,255,0.95);
+    margin: 0 0 3mm 0;
+  }
+
+  .field {
+    padding-top: 2mm;
+    border-top: 1px solid var(--rule);
+    margin-top: 1mm;
+  }
+
+  .field-label {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 6.5pt;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 0.8mm;
+  }
+  .field-text {
+    font-size: 7.8pt;
+    line-height: 1.35;
+    color: rgba(255,255,255,0.9);
+  }
+
+  .card.sights  { --accent: var(--c-sights); }
+  .card.food    { --accent: var(--c-food); }
+  .card.kids    { --accent: var(--c-kids); }
+  .card.nature  { --accent: var(--c-nature); }
+  .card.culture { --accent: var(--c-culture); }
+
+  /* ---------- Print ---------- */
+  @media print {
+    body { background: white; }
+    .toolbar { display: none; }
+    .photo-controls, .drop-hint, .photo-search { display: none !important; }
+    .page {
+      margin: 0;
+      box-shadow: none;
+      /* @page already provides 10mm margins, so the page content area
+         is 190mm × 277mm. Trim a few mm off height to absorb browser
+         rounding and prevent overflow onto the next page. */
+      width: 190mm;
+      height: 273mm;
+      padding: 0;
+    }
+    .card,
+    .card-accent,
+    .card-text,
+    .cat-tag {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .card-photo {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <select id="deck-select" onchange="switchDeck(this.value)">
+    <option value="sg">Singapore</option>
+    <option value="kl">Kuala Lumpur</option>
+  </select>
+  <button onclick="window.print()" class="primary">Print / Save as PDF</button>
+  <button onclick="exportZip()">Export photos + JSON (.zip)</button>
+  <button onclick="clearAllPhotos()" class="danger">Clear all photos</button>
+  <span class="status" id="status">0 / 0 photos</span>
+  <span class="hint">
+    Drag image files onto any card. Photos save automatically in your browser (per deck).<br>
+    Click "Export" to download a zip → unzip next to this HTML → reload to use folder photos.
+  </span>
+</div>
+
+<div id="root"></div>
+
+<script>
+const CARDS_PER_PAGE = 4;
+
+// All decks embedded — populated at build time.
+const DECKS = {
+  "sg": {
+    "label": "Singapore",
+    "activities": [
+      {
+        "name": "Gardens by the Bay",
+        "category": "nature",
+        "blurb": "Iconic Supertree Grove plus two cooled conservatories — the Flower Dome and Cloud Forest with its indoor waterfall. The outdoor gardens are free; only the conservatories are ticketed.",
+        "tips": "Free Garden Rhapsody light show at the Supertrees daily at 7.45pm and 8.45pm. Buy conservatory tickets online for a small discount. Stroller-friendly throughout.",
+        "getting_there": "MRT Bayfront (CE1/DT16), Exit B. ~10 min walk via underground link.",
+        "photo_url": ""
+      },
+      {
+        "name": "Singapore Zoo & River Wonders",
+        "category": "kids",
+        "blurb": "Open-concept zoo set in rainforest with elephants, orangutans, and a fragile forest walk-through. River Wonders next door has manatees and giant pandas.",
+        "tips": "Go at opening (8.30am) before it gets hot. Combo tickets save money if doing both. Tram is included and a lifesaver with tired kids.",
+        "getting_there": "MRT Khatib (NS14), then free shuttle bus. Or Grab — about 30 min from town.",
+        "photo_url": ""
+      },
+      {
+        "name": "Marina Bay Sands SkyPark",
+        "category": "sights",
+        "blurb": "Observation deck on the 57th floor with sweeping views of the bay, CBD skyline, and Gardens by the Bay from above.",
+        "tips": "Sunset (around 7pm) is best — you get city, sea, and night lights in one visit. Hotel guests access free; everyone else needs a ticket.",
+        "getting_there": "MRT Bayfront (CE1/DT16), Exit B or C. Tower 3, follow signage.",
+        "photo_url": ""
+      },
+      {
+        "name": "Hawker Lunch at Maxwell Food Centre",
+        "category": "food",
+        "blurb": "Classic CBD hawker centre, famous for Tian Tian Hainanese Chicken Rice and a dozen other local legends in one spot.",
+        "tips": "Go before noon or after 1.30pm to dodge the office crowd. Bring tissue packets — that's how locals 'chope' (reserve) seats.",
+        "getting_there": "MRT Maxwell (TE17) or Tanjong Pagar (EW15). Right outside the station.",
+        "photo_url": ""
+      },
+      {
+        "name": "Universal Studios Singapore",
+        "category": "kids",
+        "blurb": "Theme park on Sentosa with seven themed zones — Sci-Fi City, Ancient Egypt, Hollywood and more. Mix of thrill rides and family-friendly attractions.",
+        "tips": "Express Pass is worth it on weekends. Bring a poncho — Jurassic Park Rapids will soak you. Lockers available near wet rides.",
+        "getting_there": "MRT HarbourFront (NE1/CC29), then Sentosa Express to Waterfront Station.",
+        "photo_url": ""
+      },
+      {
+        "name": "Chinatown Heritage Walk",
+        "category": "culture",
+        "blurb": "Wander Pagoda Street's shophouses, visit Sri Mariamman Temple and the Buddha Tooth Relic Temple, then snack your way through the food street.",
+        "tips": "Cover shoulders and knees for temple visits. The Heritage Centre on Pagoda Street is a small but excellent museum if you want depth.",
+        "getting_there": "MRT Chinatown (NE4/DT19), Exit A.",
+        "photo_url": ""
+      },
+      {
+        "name": "Jewel Changi Airport",
+        "category": "sights",
+        "blurb": "Even non-travellers visit for the HSBC Rain Vortex — the world's tallest indoor waterfall — surrounded by a multi-level forest valley.",
+        "tips": "Canopy Park on level 5 has bouncing nets and mirror mazes — kids love it (separate ticket). Light & sound shows at the vortex hourly from 8pm.",
+        "getting_there": "MRT Changi Airport (CG2), follow signs to Jewel via T1.",
+        "photo_url": ""
+      },
+      {
+        "name": "MacRitchie TreeTop Walk",
+        "category": "nature",
+        "blurb": "A free-standing suspension bridge in the rainforest, part of a 7km loop trail. Macaques, monitor lizards, and rainforest canopy views.",
+        "tips": "Start early — gets very humid. Don't carry visible food (monkeys will grab it). Wear proper shoes; trail is uneven in parts. Closed Mondays.",
+        "getting_there": "Bus 132, 165, 166 to Venus Drive, then 25 min walk to trailhead.",
+        "photo_url": ""
+      },
+      {
+        "name": "Little India & Tekka Centre",
+        "category": "culture",
+        "blurb": "Vibrant streets of Indian shops, garland sellers, and gold jewellers. Tekka Centre downstairs has South Indian breakfasts; upstairs is a colourful wet market.",
+        "tips": "Go on Sunday for the most lively atmosphere. Don't miss the Sri Veeramakaliamman Temple. Banana leaf rice for lunch is the move.",
+        "getting_there": "MRT Little India (NE7/DT12), Exit C for Tekka.",
+        "photo_url": ""
+      },
+      {
+        "name": "Sentosa Beaches",
+        "category": "kids",
+        "blurb": "Three beaches — Siloso (busy, beach bars), Palawan (family, Suspension Bridge to a tiny southernmost-point islet), and Tanjong (quiet).",
+        "tips": "Palawan is best for young kids — calmer water and shaded play area. Free beach shuttle runs the length of the island.",
+        "getting_there": "MRT HarbourFront, Sentosa Express to Beach Station ($4 entry by Express; free if you walk via boardwalk).",
+        "photo_url": ""
+      },
+      {
+        "name": "Lau Pa Sat Satay Street",
+        "category": "food",
+        "blurb": "Beautiful Victorian-era hawker centre. After 7pm the adjacent Boon Tat Street closes to traffic and turns into satay heaven with smoky charcoal grills.",
+        "tips": "Order from any one satay stall — they share tables. Pair with sugarcane juice. Cash speeds things up though most accept QR pay now.",
+        "getting_there": "MRT Telok Ayer (DT18) or Raffles Place (EW14/NS26).",
+        "photo_url": ""
+      },
+      {
+        "name": "KidZania (now KidZ@Play)",
+        "category": "kids",
+        "blurb": "Mini-city role-play centre where kids try out professions — pilot, firefighter, surgeon — and earn play currency. Best for ages 4–12.",
+        "tips": "Book a 4-hour slot for the full experience. Adults can sit in the cafe area; you don't follow them around. Bring a water bottle.",
+        "getting_there": "Currently relocated — check website for latest venue before going.",
+        "photo_url": ""
+      },
+      {
+        "name": "Botanic Gardens & National Orchid Garden",
+        "category": "nature",
+        "blurb": "UNESCO World Heritage site with 160 years of history. The Orchid Garden inside has 1,000+ species. The main gardens are free and stroller-friendly.",
+        "tips": "Enter via Tanglin Gate for the heritage trees and swan lake. Jacob Ballas Children's Garden inside is excellent and also free.",
+        "getting_there": "MRT Botanic Gardens (CC19/DT9), Exit A.",
+        "photo_url": ""
+      },
+      {
+        "name": "ArtScience Museum",
+        "category": "culture",
+        "blurb": "Lotus-shaped museum at MBS. The permanent 'Future World' exhibit by teamLab is a digital wonderland — the kids will lose their minds.",
+        "tips": "Future World gets crowded after lunch — go right at opening (10am). Wear something comfortable; lots of sitting on the floor.",
+        "getting_there": "MRT Bayfront (CE1/DT16), Exit D.",
+        "photo_url": ""
+      },
+      {
+        "name": "Haw Par Villa",
+        "category": "culture",
+        "blurb": "Eccentric Chinese mythology theme park from the 1930s, free entry. Famous for the gloriously gory '10 Courts of Hell' diorama. Wonderfully weird.",
+        "tips": "10 Courts ticketed (small fee) and may scare younger kids — preview first. Mostly outdoors, bring water and a hat.",
+        "getting_there": "MRT Haw Par Villa (CC25), Exit A.",
+        "photo_url": ""
+      },
+      {
+        "name": "Tiong Bahru Bakery + Estate Walk",
+        "category": "food",
+        "blurb": "Art deco housing estate (Singapore's oldest) full of indie cafes, bookshops, and the famous bakery's kouign-amann. Great morning stroll.",
+        "tips": "Bakery queue is fastest before 9am or after 3pm. The wet market hawker centre nearby is excellent for traditional breakfast (chwee kueh, lor mee).",
+        "getting_there": "MRT Tiong Bahru (EW17), 10 min walk to the estate.",
+        "photo_url": ""
+      },
+      {
+        "name": "Pulau Ubin Day Trip",
+        "category": "nature",
+        "blurb": "Tiny island off the northeast coast — feels like Singapore 50 years ago. Rent bikes and ride to Chek Jawa wetlands.",
+        "tips": "Bumboat leaves when 12 passengers gather (~$4 each way, cash). Bring insect repellent and water. Half a day is enough; full day if you cycle far.",
+        "getting_there": "MRT Tanah Merah (EW4), then bus 2 to Changi Village, then bumboat from Changi Point Ferry Terminal.",
+        "photo_url": ""
+      },
+      {
+        "name": "Singapore Discovery Centre",
+        "category": "kids",
+        "blurb": "Hands-on science and history museum out west, with simulators, an outdoor water play area, and a 4D theatre. Underrated and rarely crowded.",
+        "tips": "Check exhibition rotation before going — keeps things fresh. Cafe options are limited; eat before or at nearby Joo Koon mall.",
+        "getting_there": "MRT Joo Koon (EW29), then bus 182. Or Grab from town (~30 min).",
+        "photo_url": ""
+      },
+      {
+        "name": "East Coast Park Cycling",
+        "category": "nature",
+        "blurb": "15km coastal park with rental bikes (including kids' bikes and trailer attachments), beach, BBQ pits, and seafood restaurants.",
+        "tips": "Rent at Coastline Leisure or GoCycling. Avoid weekend afternoons — gets packed. Try Long Beach Seafood for chilli crab as a reward.",
+        "getting_there": "MRT Bedok (EW5), then bus 401 (weekends only) or Grab to ECP.",
+        "photo_url": ""
+      },
+      {
+        "name": "Kampong Glam & Haji Lane",
+        "category": "culture",
+        "blurb": "Historic Malay-Arab quarter around the gold-domed Sultan Mosque. Haji Lane next door is narrow and packed with murals, indie shops, and bars.",
+        "tips": "Visit the mosque outside prayer times; modest dress required. Try Zam Zam for murtabak — a Singapore classic since 1908.",
+        "getting_there": "MRT Bugis (EW12/DT14), Exit B.",
+        "photo_url": ""
+      },
+      {
+        "name": "National Gallery Singapore",
+        "category": "culture",
+        "blurb": "Southeast Asia's largest visual art museum, set in the gorgeously restored former Supreme Court and City Hall buildings.",
+        "tips": "Rooftop has free public access with great Padang views. Free entry for Singaporeans/PRs. Family activity guides at the info desk.",
+        "getting_there": "MRT City Hall (EW13/NS25), Exit B.",
+        "photo_url": ""
+      },
+      {
+        "name": "Mandai Wildlife West (Bird Paradise)",
+        "category": "kids",
+        "blurb": "Replaced the old Jurong Bird Park — eight massive walk-through aviaries with 3,500 birds. Penguins, hornbills, flamingos, lorikeets you can feed.",
+        "tips": "Go early (opens 9am). Penguin feeding times posted at entrance. Consider the Mandai pass if also visiting Zoo or Night Safari same trip.",
+        "getting_there": "MRT Springleaf (TE4) or Khatib (NS14), then Mandai Khatib Shuttle.",
+        "photo_url": ""
+      },
+      {
+        "name": "Old Airport Road Food Centre",
+        "category": "food",
+        "blurb": "Locals' favourite hawker centre with multiple Michelin-mentioned stalls — try Hokkien mee, char kway teow, lor mee, and old-school ice kacang.",
+        "tips": "Lunchtime 12–1.30pm gets intense. Some legendary stalls close on specific weekdays — check before heading down.",
+        "getting_there": "MRT Dakota (CC8), Exit B, 5 min walk.",
+        "photo_url": ""
+      },
+      {
+        "name": "Marina Barrage Kite Flying",
+        "category": "kids",
+        "blurb": "Massive grass rooftop overlooking the bay — perfect for kite flying (sea breeze!), picnics, and watching the city light up at dusk.",
+        "tips": "Buy a cheap kite from a Daiso. Free entry, free parking. Sustainable Singapore Gallery downstairs has good toilets and aircon.",
+        "getting_there": "MRT Marina Bay (NS27/CE2/TE20), then 15 min walk or short Grab.",
+        "photo_url": ""
+      },
+      {
+        "name": "Singapore Science Centre + Snow City",
+        "category": "kids",
+        "blurb": "Old but consistently good — hands-on physics, a Tesla coil show, butterfly garden. Snow City next door for sub-zero tubing if the kids haven't seen snow.",
+        "tips": "Allow 3+ hours for Science Centre alone. Snow City supplies jackets and boots — wear long pants and socks.",
+        "getting_there": "MRT Jurong East (NS1/EW24), 10 min walk.",
+        "photo_url": ""
+      },
+      {
+        "name": "Katong & Joo Chiat Peranakan Trail",
+        "category": "culture",
+        "blurb": "Pastel-coloured Peranakan shophouses on Koon Seng Road — the most photographed street in Singapore. Great laksa nearby at 328 Katong Laksa.",
+        "tips": "Mornings are best for photos (light + fewer cars). Combine with Rumah Bebe for Peranakan beadwork or Kim Choo for nyonya kueh.",
+        "getting_there": "MRT Marine Parade (TE26) or Grab from town.",
+        "photo_url": ""
+      },
+      {
+        "name": "Night Safari",
+        "category": "nature",
+        "blurb": "World's first nocturnal zoo. Tram ride through dimly lit habitats with rhinos, hyenas, and Asian elephants. Walking trails branch off.",
+        "tips": "Last entry 11.15pm but go for the 7.15pm slot to catch the Creatures of the Night show first. No flash photography on the tram.",
+        "getting_there": "MRT Khatib (NS14), then Mandai Khatib Shuttle.",
+        "photo_url": ""
+      },
+      {
+        "name": "Geylang Serai Market",
+        "category": "food",
+        "blurb": "Largest Malay market in Singapore. Beautiful at any time, magical during Ramadan with the bazaar. Try mee siam, mee rebus, and kueh.",
+        "tips": "Wet market downstairs, cooked food upstairs. Joo Chiat Road just south has more eats — try nasi lemak at Boon Lay Power.",
+        "getting_there": "MRT Paya Lebar (EW8/CC9), Exit C.",
+        "photo_url": ""
+      },
+      {
+        "name": "Fort Canning Park",
+        "category": "nature",
+        "blurb": "Historic hilltop park in the heart of town. The 'Tree Tunnel' spiral staircase is the city's most-photographed spot. Battlebox WW2 bunker tour available.",
+        "tips": "Tree Tunnel is at Park Connector entrance near River Valley. Battlebox tours need advance booking. Cool morning walk before town gets hot.",
+        "getting_there": "MRT Fort Canning (DT20) or Dhoby Ghaut (NS24/NE6/CC1).",
+        "photo_url": ""
+      },
+      {
+        "name": "Sungei Buloh Wetland Reserve",
+        "category": "nature",
+        "blurb": "Mangrove wetland in the far north — mudskippers, monitor lizards, kingfishers, and migratory birds (Sept–March). Free, peaceful, totally different vibe.",
+        "tips": "Bring binoculars if you have them. Boardwalks are stroller-friendly. Wear long sleeves at dusk — mosquitoes. Best in early morning.",
+        "getting_there": "MRT Kranji (NS7), then Kranji Countryside Express bus or short Grab.",
+        "photo_url": ""
+      }
+    ]
+  },
+  "kl": {
+    "label": "Kuala Lumpur",
+    "activities": [
+      {
+        "name": "Jalan Alor Night Food Street",
+        "category": "food",
+        "blurb": "KL's most famous open-air street food strip. Plastic stools, smoky woks, and dozens of stalls running until late — chicken wings, satay, char kway teow, durian.",
+        "tips": "Wong Ah Wah for legendary BBQ chicken wings. Cash speeds things up. Avoid touts at the entrance; walk past for better-priced stalls deeper in.",
+        "getting_there": "Monorail Bukit Bintang, then 5 min walk through the Changkat area.",
+        "photo_url": ""
+      },
+      {
+        "name": "Lot 10 Hutong Food Court",
+        "category": "food",
+        "blurb": "Basement food court that hand-picked legendary hawker stalls from across Malaysia — many third-generation, including the famous Soong Kee beef noodles.",
+        "tips": "Go for an early lunch (11.30am) before the office crowd. Hokkien mee at Kim Lian Kee is the move. Aircon — perfect midday refuge.",
+        "getting_there": "Monorail Bukit Bintang, Lot 10 mall basement (LG floor).",
+        "photo_url": ""
+      },
+      {
+        "name": "Petronas Twin Towers & KLCC Park",
+        "category": "sights",
+        "blurb": "The iconic 452m twin towers with a Skybridge between them. KLCC Park below has a free playground, splash pad, and the best photo angle of the towers.",
+        "tips": "Skybridge tickets sell out — book online days ahead. Symphony Lake fountain show: 8pm, 9pm, 10pm. Splash pad opens 10am, kids go wild.",
+        "getting_there": "LRT KLCC, direct connection to Suria KLCC mall and the towers.",
+        "photo_url": ""
+      },
+      {
+        "name": "Batu Caves",
+        "category": "culture",
+        "blurb": "Massive limestone cave temple complex with the iconic 42m gold Murugan statue and 272 rainbow steps. Macaques everywhere — entertaining and cheeky.",
+        "tips": "Go before 9am to beat the heat and crowds. Cover knees and shoulders. Don't bring visible food or sunglasses (monkeys will grab them).",
+        "getting_there": "KTM Komuter from KL Sentral direct to Batu Caves station — 30 min, very cheap.",
+        "photo_url": ""
+      },
+      {
+        "name": "Central Market (Pasar Seni)",
+        "category": "culture",
+        "blurb": "Art deco heritage building turned craft and souvenir bazaar. Batik, songket, pewter, and a quieter Annexe gallery upstairs. Air-conditioned and toddler-friendly.",
+        "tips": "Prices are flexible — polite haggling is expected. The Kasturi Walk lane outside has cheap eats and street performers in the evening.",
+        "getting_there": "LRT Pasar Seni, exit directly into the building.",
+        "photo_url": ""
+      },
+      {
+        "name": "Madras Lane Hawker Stalls",
+        "category": "food",
+        "blurb": "Tucked-away alley behind Petaling Street with iconic stalls: yong tau foo, curry mee, and the legendary chee cheong fun. Pure old-school KL.",
+        "tips": "Go before 11am — many stalls sell out by lunch. Cash only. The curry mee with cockles is the signature; not for the squeamish but worth it.",
+        "getting_there": "LRT Pasar Seni, walk through Petaling Street, look for the side alley near Hong Leong Bank.",
+        "photo_url": ""
+      },
+      {
+        "name": "Petaling Street (Chinatown)",
+        "category": "culture",
+        "blurb": "Covered market street under a green roof — knockoff goods, dried foods, herbal medicine shops, and excellent street food. Atmospheric and chaotic.",
+        "tips": "Famous for fake luxury goods — quality varies wildly. Don't buy the first price quoted. Air Mata Kuching (longan iced drink) at the top of the street is a must.",
+        "getting_there": "LRT Pasar Seni, 5 min walk.",
+        "photo_url": ""
+      },
+      {
+        "name": "Sunway Lagoon Theme Park",
+        "category": "kids",
+        "blurb": "Six themed parks in one: Water Park, Amusement Park, Wildlife Park, Extreme Park, Scream Park, and Nickelodeon Lost Lagoon. World's largest man-made surf beach.",
+        "tips": "All-day pass is the way. Bring waterproof phone bag — ride lockers cost extra. Sunway Pyramid mall next door has good food when you're done.",
+        "getting_there": "BRT Sunway Line to USJ 7, then short walk. Or Grab — about 30 min from KLCC.",
+        "photo_url": ""
+      },
+      {
+        "name": "Imbi Market (ICC Pudu)",
+        "category": "food",
+        "blurb": "Locals' breakfast institution. Wet market with a hawker section serving banh xeo, pork noodles, sui kow, and Sister Ho's nostalgic Hainanese chicken rice.",
+        "tips": "Get there by 8am — best stalls close by 11am. Bubur cha cha and ondeh ondeh from Ah Weng Koh's stall are legendary.",
+        "getting_there": "Monorail Imbi station, 5 min walk to ICC Pudu building.",
+        "photo_url": ""
+      },
+      {
+        "name": "KL Bird Park",
+        "category": "kids",
+        "blurb": "World's largest free-flight walk-in aviary, set in the green Lake Gardens area. Hornbills, peacocks, and flamingos wandering the paths. Stroller-friendly.",
+        "tips": "Bird feeding shows at 12.30pm and 3.30pm. Go in the morning before it gets blazing. Combine with the Butterfly Park nearby for a full half-day.",
+        "getting_there": "Grab from KL Sentral (~10 min). KTM Kuala Lumpur station also walkable.",
+        "photo_url": ""
+      },
+      {
+        "name": "Kampung Baru Nasi Lemak Antarabangsa",
+        "category": "food",
+        "blurb": "Legendary roadside nasi lemak joint open practically 24 hours, in the last Malay village in central KL. Wooden houses next to glass towers — surreal vibe.",
+        "tips": "Pair the nasi lemak with rendang or sambal sotong. Late-night here is iconic. Walk Kampung Baru's streets after — the kampung-vs-skyline contrast is unique.",
+        "getting_there": "LRT Kampung Baru station, 5 min walk down Jalan Raja Muda Musa.",
+        "photo_url": ""
+      },
+      {
+        "name": "Restoran Yut Kee (Hainanese Kopitiam)",
+        "category": "food",
+        "blurb": "Operating since 1928. Old-school Hainanese chicken chop, roti babi, kaya toast, and marble cake. A living slice of pre-war KL.",
+        "tips": "Closed Mondays. Go for breakfast or early lunch — they sell out. Cash only. Order roti babi if available; rare and excellent.",
+        "getting_there": "Monorail Medan Tuanku, 5 min walk to Jalan Kamunting.",
+        "photo_url": ""
+      },
+      {
+        "name": "Thean Hou Temple",
+        "category": "culture",
+        "blurb": "Six-tier hilltop Chinese temple with sweeping KL views, lantern-lined courtyards, and dragon-pillared halls. Particularly stunning during Chinese New Year.",
+        "tips": "Free entry. Sunset light is gorgeous for photos. Quiet on weekday mornings, packed on weekends with wedding photoshoots.",
+        "getting_there": "Grab from KL Sentral (~10 min) — public transport access is awkward.",
+        "photo_url": ""
+      },
+      {
+        "name": "Putrajaya Day Trip",
+        "category": "sights",
+        "blurb": "Malaysia's planned administrative capital, 30km south of KL. Pink mosque on the lake, futuristic bridges, manicured boulevards, and lake cruises.",
+        "tips": "Putra Mosque allows visitors outside prayer times — robes provided. Lake cruise is cheap and a great way to see all the bridges. Cool early morning visit.",
+        "getting_there": "KLIA Transit train from KL Sentral to Putrajaya & Cyberjaya station, then Grab.",
+        "photo_url": ""
+      },
+      {
+        "name": "Kepong Wet Market Breakfast",
+        "category": "food",
+        "blurb": "Suburban morning market beloved by locals. Real-deal Hong Kong-style dim sum at Mun Wah, plus chee cheong fun stalls, fresh soy milk, and fried fritters.",
+        "tips": "Get there by 7-8am for peak freshness. Mun Wah dim sum: order the har gow and char siu bao. Walking through the wet market itself is half the experience.",
+        "getting_there": "MRT Kepong Sentral, then short Grab to Jalan 2/62A.",
+        "photo_url": ""
+      },
+      {
+        "name": "Aquaria KLCC",
+        "category": "kids",
+        "blurb": "90m underwater tunnel with sharks, stingrays, and giant groupers passing overhead. Smaller tanks with otters, seahorses, and a piranha pool. Solid rainy-day option.",
+        "tips": "Go right at opening (10am) to walk the tunnel without crowds. Combo tickets with KL Tower if doing both. Allow 1.5 hours.",
+        "getting_there": "LRT KLCC, in the basement of the KL Convention Centre.",
+        "photo_url": ""
+      },
+      {
+        "name": "Masjid Jamek & Merdeka Square",
+        "category": "culture",
+        "blurb": "Moorish-style mosque at the river confluence where KL was founded, plus the colonial-era Merdeka Square nearby (where Malaysia's independence was declared).",
+        "tips": "Visit the mosque outside prayer times; modest dress provided free. The River of Life walk along the Klang river is pleasant in the evening.",
+        "getting_there": "LRT Masjid Jamek, exit directly at the mosque.",
+        "photo_url": ""
+      },
+      {
+        "name": "Genting Highlands",
+        "category": "kids",
+        "blurb": "Mountain casino-and-theme-park resort at 1,800m. Cool 18°C air, an outdoor theme park, indoor SkyTropolis park, and the world's longest cable car ride up.",
+        "tips": "Bring a jacket — it's genuinely cold. Cable car (Awana Skyway) is the experience. Buy theme park tickets online for big discounts. Expect crowds on weekends.",
+        "getting_there": "Bus from KL Sentral (1 hr) to Awana Skyway, then cable car to the top.",
+        "photo_url": ""
+      },
+      {
+        "name": "Restoran Sek Yuen (1948)",
+        "category": "food",
+        "blurb": "Cantonese institution unchanged since the 1940s — wood-fired wok, ancient kitchen, and signature dishes like pei pa duck and yin yong egg.",
+        "tips": "Closed Tuesdays. Reserve ahead — small space, big reputation. The pei pa duck takes 30 min — order on arrival. Cash preferred.",
+        "getting_there": "Grab to Jalan Pudu — short ride from Bukit Bintang.",
+        "photo_url": ""
+      },
+      {
+        "name": "KL Tower (Menara KL) & Forest Reserve",
+        "category": "sights",
+        "blurb": "421m tower on a hill in a 100-year-old protected rainforest right in the city. Sky deck, observation deck, and a free canopy walkway in the forest below.",
+        "tips": "Sky Deck (open-air glass box) costs more than the standard observation deck and is worth it. Bukit Nanas Forest Reserve walk is free — short but lovely.",
+        "getting_there": "Monorail Bukit Nanas, then short walk uphill or shuttle bus from the entrance.",
+        "photo_url": ""
+      },
+      {
+        "name": "SS2 Pasar Malam (Monday Night Market)",
+        "category": "food",
+        "blurb": "Sprawling Monday-night market in Petaling Jaya — fresh fruit, durian, fried snacks, apam balik, otak-otak, popiah. Locals' weekly ritual.",
+        "tips": "Goes 5pm to ~10pm. Bring small bills. The apam balik (peanut pancake) and freshly fried popiah are essentials. Parking is hellish; Grab in.",
+        "getting_there": "Grab to SS2, Petaling Jaya — about 30 min from central KL.",
+        "photo_url": ""
+      },
+      {
+        "name": "Jalan Bangkung (Bangsar Hipster Strip)",
+        "category": "food",
+        "blurb": "Trendy Bangsar street with quality cafes, gelato, izakayas, and craft cocktail bars. Slower, leafier vibe than Bukit Bintang. Good for a chill evening.",
+        "tips": "Mid-morning weekends are perfect for cafe-hopping with kids — most have outdoor seating. Pulp by Papa Palheta for coffee, Inside Scoop for ice cream.",
+        "getting_there": "Grab from city center (~15 min). LRT Bangsar is a 10-min walk away.",
+        "photo_url": ""
+      },
+      {
+        "name": "FRIM (Forest Research Institute) Canopy Walk",
+        "category": "kids",
+        "blurb": "200-hectare rainforest reserve 30 min from KL, with a 200m-long canopy walkway 30m above the forest floor. Real jungle without leaving the city.",
+        "tips": "Canopy walk closes Mondays and during rain. Get there by 9am — slots fill up. Wear proper shoes; trail to canopy is uphill.",
+        "getting_there": "Grab to FRIM Kepong — public transport not practical.",
+        "photo_url": ""
+      },
+      {
+        "name": "Restoran Win Heng Seng (Pork Noodles)",
+        "category": "food",
+        "blurb": "Coffee shop near KLCC famous for one thing: char siew rice and the legendary Imbi-style pork noodles with raw egg stirred in.",
+        "tips": "Closed Tuesdays. Get there before 11am — they routinely sell out. The char siew is dark, sticky, and excellent. Cash only.",
+        "getting_there": "Monorail Imbi, 5 min walk to Jalan Yew/Pudu area.",
+        "photo_url": ""
+      },
+      {
+        "name": "Islamic Arts Museum",
+        "category": "culture",
+        "blurb": "One of Southeast Asia's best museums — calligraphy, textiles, Quran manuscripts, and a stunning architecture gallery with miniature mosques.",
+        "tips": "Underrated. Aircon, beautifully designed, never crowded. Cafe inside is excellent for lunch. Free shoulder shawls if needed.",
+        "getting_there": "Grab from KL Sentral or KTM Kuala Lumpur. Adjacent to the National Mosque.",
+        "photo_url": ""
+      },
+      {
+        "name": "Devi's Corner (Bangsar Banana Leaf)",
+        "category": "food",
+        "blurb": "24-hour Indian-Muslim mamak with the city's best banana leaf rice — fluffy rice, rotating veg sides, and crispy fried chicken or fish curry.",
+        "tips": "The 'set' banana leaf is the move — they keep refilling sides. Roti canai for breakfast or post-midnight is iconic. Open all hours.",
+        "getting_there": "Grab to Bangsar — about 15 min from KLCC.",
+        "photo_url": ""
+      },
+      {
+        "name": "TRX (Tun Razak Exchange) Park & Rooftop",
+        "category": "sights",
+        "blurb": "KL's newest skyscraper district with a 10-acre rooftop park atop The Exchange TRX mall. Skyline views, kids' play areas, and dining without entry fee.",
+        "tips": "Free access via mall lifts. Best at sunset. The mall itself has flagship F&B that's actually good. Air-conditioned escape route on hot days.",
+        "getting_there": "MRT Tun Razak Exchange, direct connection to the mall.",
+        "photo_url": ""
+      },
+      {
+        "name": "Chow Kit Wet Market",
+        "category": "food",
+        "blurb": "KL's largest wet market — gritty, real, and unfiltered. Live seafood, exotic fruits, halal meats, and a hawker section serving Malay breakfast classics.",
+        "tips": "Best 7-10am. The Bazaar Baru stretches across multiple buildings. Try nasi lemak bungkus and kuih from the morning stalls. Wear shoes you don't mind getting wet.",
+        "getting_there": "Monorail Chow Kit, 5 min walk.",
+        "photo_url": ""
+      },
+      {
+        "name": "Jalan Alor Durian Stalls",
+        "category": "food",
+        "blurb": "Same street as the night food market, but mid-afternoon onward you'll find a row of dedicated durian stalls — Musang King, D24, XO, all the premium varieties.",
+        "tips": "Prices vary wildly — get a quote per kg before pointing. Eat on-site (most hotels ban durian). Pair with mangosteen, sold at the same stalls.",
+        "getting_there": "Monorail Bukit Bintang, 5 min walk.",
+        "photo_url": ""
+      },
+      {
+        "name": "Perdana Botanical Gardens",
+        "category": "kids",
+        "blurb": "Sprawling green park in the historic Lake Gardens area. Free playgrounds, paddle boats on the lake, deer enclosure, and shaded paths. Locals' weekend escape.",
+        "tips": "Free entry. Stroller-friendly main paths. Combine with Bird Park, Butterfly Park, or Islamic Arts Museum nearby for a full day.",
+        "getting_there": "KTM Kuala Lumpur or Grab from KL Sentral. Multiple entry gates.",
+        "photo_url": ""
+      }
+    ]
+  }
+};
+
+// Active deck state
+let currentDeck = 'sg';
+let ACTIVITIES = DECKS[currentDeck].activities;
+
+// ---------- IndexedDB helpers ----------
+const DB_NAME = 'activity-cards';
+const STORE = 'photos';
+
+function openDB() {
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open(DB_NAME, 1);
+    req.onupgradeneeded = () => req.result.createObjectStore(STORE);
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
+
+// Keys are scoped: "{deck}::{activity name}"
+function scopedKey(deck, name) { return `${deck}::${name}`; }
+
+async function dbPut(deck, name, blob) {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE, 'readwrite');
+    tx.objectStore(STORE).put(blob, scopedKey(deck, name));
+    tx.oncomplete = resolve;
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+async function dbDelete(deck, name) {
+  const db = await openDB();
+  return new Promise((resolve) => {
+    const tx = db.transaction(STORE, 'readwrite');
+    tx.objectStore(STORE).delete(scopedKey(deck, name));
+    tx.oncomplete = resolve;
+  });
+}
+
+// Return only entries for given deck, with the deck prefix stripped
+async function dbAllForDeck(deck) {
+  const db = await openDB();
+  return new Promise((resolve) => {
+    const tx = db.transaction(STORE, 'readonly');
+    const store = tx.objectStore(STORE);
+    const result = {};
+    const prefix = `${deck}::`;
+    store.openCursor().onsuccess = (e) => {
+      const cursor = e.target.result;
+      if (cursor) {
+        if (typeof cursor.key === 'string' && cursor.key.startsWith(prefix)) {
+          result[cursor.key.slice(prefix.length)] = cursor.value;
+        }
+        cursor.continue();
+      } else {
+        resolve(result);
+      }
+    };
+  });
+}
+
+async function dbClearDeck(deck) {
+  const db = await openDB();
+  return new Promise((resolve) => {
+    const tx = db.transaction(STORE, 'readwrite');
+    const store = tx.objectStore(STORE);
+    const prefix = `${deck}::`;
+    store.openCursor().onsuccess = (e) => {
+      const cursor = e.target.result;
+      if (cursor) {
+        if (typeof cursor.key === 'string' && cursor.key.startsWith(prefix)) {
+          cursor.delete();
+        }
+        cursor.continue();
+      } else {
+        resolve();
+      }
+    };
+  });
+}
+
+// ---------- Helpers ----------
+
+function slugify(name) {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+function extFor(blob, fallbackName = '') {
+  const m = (blob.type || '').match(/image\/(jpeg|jpg|png|webp|gif)/);
+  if (m) return m[1] === 'jpeg' ? 'jpg' : m[1];
+  const m2 = fallbackName.match(/\.(jpe?g|png|webp|gif)$/i);
+  if (m2) return m2[1].toLowerCase().replace('jpeg', 'jpg');
+  return 'jpg';
+}
+
+function photosFolderForDeck(deck) {
+  return `photos-${deck}`;
+}
+
+// ---------- State (per-deck, recreated on switch) ----------
+let photoBlobs = {};
+let photoObjectUrls = {};
+
+// ---------- Rendering ----------
+
+function renderCard(act, idx) {
+  const photoSrc = photoObjectUrls[act.name] || act.photo_url || '';
+  const noPhotoClass = photoSrc ? '' : 'no-photo';
+
+  const photoEl = photoSrc
+    ? `<img class="card-photo" src="${photoSrc}" alt="">`
+    : '';
+
+  // Bias Google Images search with the deck location for better results
+  const locationHint = DECKS[currentDeck].label;
+  const searchUrl = 'https://www.google.com/search?tbm=isch&q='
+    + encodeURIComponent(`${act.name} ${locationHint}`);
+
+  return `
+    <article class="card ${act.category} ${noPhotoClass}" data-idx="${idx}">
+      ${photoEl}
+      <div class="card-accent"></div>
+      <span class="cat-tag">${act.category}</span>
+      <div class="photo-controls">
+        <button onclick="replacePhoto(${idx})">Replace</button>
+        <button onclick="removePhoto(${idx})">Remove</button>
+      </div>
+      <a class="photo-search" href="${searchUrl}" target="_blank" rel="noopener">Find photo ↗</a>
+      <div class="drop-hint">Drag photo here</div>
+      <div class="card-text">
+        <h2 class="name">${act.name}</h2>
+        <p class="blurb">${act.blurb}</p>
+        <div class="field">
+          <div class="field-label">Tips</div>
+          <div class="field-text">${act.tips}</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Getting there</div>
+          <div class="field-text">${act.getting_there}</div>
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+function render() {
+  const root = document.getElementById('root');
+  let html = '';
+  for (let i = 0; i < ACTIVITIES.length; i += CARDS_PER_PAGE) {
+    const slice = ACTIVITIES.slice(i, i + CARDS_PER_PAGE);
+    html += '<section class="page">';
+    html += slice.map((a, j) => renderCard(a, i + j)).join('');
+    for (let k = slice.length; k < CARDS_PER_PAGE; k++) html += '<div></div>';
+    html += '</section>';
+  }
+  root.innerHTML = html;
+  attachDragHandlers();
+  updateStatus();
+}
+
+function updateStatus() {
+  const have = Object.keys(photoBlobs).length;
+  const total = ACTIVITIES.length;
+  const el = document.getElementById('status');
+  el.textContent = `${have} / ${total} photos · ${DECKS[currentDeck].label}`;
+  el.style.color = have === total ? '#4ade80' : (have > 0 ? '#fbbf24' : '#999');
+}
+
+// ---------- Deck switching ----------
+
+async function switchDeck(deck) {
+  if (!DECKS[deck]) return;
+  // Free old object URLs
+  Object.values(photoObjectUrls).forEach(URL.revokeObjectURL);
+  photoBlobs = {};
+  photoObjectUrls = {};
+
+  currentDeck = deck;
+  ACTIVITIES = DECKS[deck].activities;
+
+  // Load photos for new deck
+  const saved = await dbAllForDeck(deck);
+  for (const [name, blob] of Object.entries(saved)) {
+    if (ACTIVITIES.find(a => a.name === name)) {
+      photoBlobs[name] = blob;
+      photoObjectUrls[name] = URL.createObjectURL(blob);
+    }
+  }
+  // Persist preference
+  try { localStorage.setItem('activity-cards:deck', deck); } catch (e) {}
+  document.getElementById('deck-select').value = deck;
+  render();
+}
+
+// ---------- Drag/drop ----------
+
+function attachDragHandlers() {
+  document.querySelectorAll('.card').forEach(card => {
+    const idx = parseInt(card.dataset.idx);
+    if (isNaN(idx)) return;
+
+    card.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      card.classList.add('drag-over');
+    });
+    card.addEventListener('dragleave', () => card.classList.remove('drag-over'));
+    card.addEventListener('drop', async (e) => {
+      e.preventDefault();
+      card.classList.remove('drag-over');
+      const file = e.dataTransfer.files[0];
+      if (!file || !file.type.startsWith('image/')) {
+        alert('Please drop an image file (jpg, png, webp).');
+        return;
+      }
+      await setPhoto(idx, file);
+    });
+  });
+}
+
+async function setPhoto(idx, file) {
+  const act = ACTIVITIES[idx];
+  if (photoObjectUrls[act.name]) URL.revokeObjectURL(photoObjectUrls[act.name]);
+  photoBlobs[act.name] = file;
+  photoObjectUrls[act.name] = URL.createObjectURL(file);
+  await dbPut(currentDeck, act.name, file);
+  render();
+}
+
+async function removePhoto(idx) {
+  const act = ACTIVITIES[idx];
+  if (photoObjectUrls[act.name]) URL.revokeObjectURL(photoObjectUrls[act.name]);
+  delete photoBlobs[act.name];
+  delete photoObjectUrls[act.name];
+  await dbDelete(currentDeck, act.name);
+  render();
+}
+
+function replacePhoto(idx) {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+  input.onchange = async () => {
+    if (input.files[0]) await setPhoto(idx, input.files[0]);
+  };
+  input.click();
+}
+
+async function clearAllPhotos() {
+  if (!confirm(`Remove all uploaded photos for ${DECKS[currentDeck].label}? This cannot be undone.`)) return;
+  Object.values(photoObjectUrls).forEach(URL.revokeObjectURL);
+  photoBlobs = {};
+  photoObjectUrls = {};
+  await dbClearDeck(currentDeck);
+  render();
+}
+
+// ---------- Export ----------
+
+async function exportZip() {
+  if (typeof JSZip === 'undefined') {
+    alert('JSZip failed to load (you may be offline). The library loads from a CDN; reconnect and reload.');
+    return;
+  }
+
+  const zip = new JSZip();
+  const folderName = photosFolderForDeck(currentDeck);
+  const photosFolder = zip.folder(folderName);
+
+  // Build updated activities with photo_url pointing to ./photos-{deck}/...
+  const updated = ACTIVITIES.map(act => {
+    const blob = photoBlobs[act.name];
+    if (blob) {
+      const ext = extFor(blob, blob.name || '');
+      const filename = `${slugify(act.name)}.${ext}`;
+      photosFolder.file(filename, blob);
+      return { ...act, photo_url: `./${folderName}/${filename}` };
+    }
+    return { ...act, photo_url: act.photo_url || '' };
+  });
+
+  zip.file(`activities-${currentDeck}.json`, JSON.stringify(updated, null, 2));
+
+  // Patch the HTML so the embedded DECK[currentDeck] uses the new URLs
+  try {
+    const html = document.documentElement.outerHTML;
+    // Replace DECKS[currentDeck].activities array within the embedded DECKS literal
+    const updatedDecks = { ...DECKS };
+    updatedDecks[currentDeck] = { ...updatedDecks[currentDeck], activities: updated };
+    const newJsLiteral = `const DECKS = ${JSON.stringify(updatedDecks, null, 2)};`;
+    const patched = html.replace(
+      /const DECKS = \{[\s\S]*?\};(?=\s*\/\/)/,
+      newJsLiteral + ' //'
+    );
+    zip.file('activity-cards.html', patched);
+  } catch (e) {
+    console.warn('Could not patch HTML, skipping:', e);
+  }
+
+  const content = await zip.generateAsync({ type: 'blob' });
+  const url = URL.createObjectURL(content);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `activity-cards-${currentDeck}-export.zip`;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+// ---------- Init ----------
+
+async function init() {
+  // Restore last-used deck
+  let initialDeck = 'sg';
+  try {
+    const saved = localStorage.getItem('activity-cards:deck');
+    if (saved && DECKS[saved]) initialDeck = saved;
+  } catch (e) {}
+  await switchDeck(initialDeck);
+}
+
+init();
+</script>
+</body>
+</html>

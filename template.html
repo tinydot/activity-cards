@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Activity Cards · Singapore</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+  @page {
+    size: A4 portrait;
+    margin: 10mm;
+  }
+
+  :root {
+    --c-sights:  #4a9fd1;
+    --c-food:    #f97316;
+    --c-kids:    #c084fc;
+    --c-nature:  #4ade80;
+    --c-culture: #fbbf24;
+
+    --ink: #ffffff;
+    --rule: rgba(255,255,255,0.25);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Source Serif Pro', 'Charter', Georgia, 'Times New Roman', serif;
+    color: var(--ink);
+    background: #f4f4f1;
+    font-size: 10pt;
+    line-height: 1.4;
+  }
+
+  /* ---------- Toolbar ---------- */
+  .toolbar {
+    position: sticky;
+    top: 0;
+    background: #1a1a1a;
+    color: #fff;
+    padding: 14px 20px;
+    z-index: 100;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 12px;
+  }
+  .toolbar button {
+    background: #fff;
+    color: #1a1a1a;
+    border: none;
+    padding: 8px 14px;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.02em;
+    border-radius: 2px;
+  }
+  .toolbar button:hover { background: #e5e5e5; }
+  .toolbar select {
+    background: #fff;
+    color: #1a1a1a;
+    border: none;
+    padding: 8px 12px;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 2px;
+    margin-right: 8px;
+  }
+  .toolbar button.primary {
+    background: #4ade80;
+    color: #000;
+  }
+  .toolbar button.primary:hover { background: #22c55e; }
+  .toolbar button.danger {
+    background: transparent;
+    color: #fca5a5;
+    border: 1px solid #7f1d1d;
+  }
+  .toolbar button.danger:hover { background: #7f1d1d; color: #fff; }
+  .toolbar .hint { color: #999; font-size: 11px; line-height: 1.5; flex: 1; min-width: 280px; }
+  .toolbar .status {
+    background: #333;
+    padding: 6px 10px;
+    border-radius: 2px;
+    color: #4ade80;
+    font-size: 11px;
+  }
+
+  /* ---------- Pages ---------- */
+  .page {
+    width: 210mm;
+    height: 297mm;
+    padding: 10mm;
+    margin: 16px auto;
+    background: white;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 4mm;
+    page-break-after: always;
+  }
+  .page:last-child { page-break-after: auto; }
+
+  /* ---------- Card ---------- */
+  .card {
+    position: relative;
+    overflow: hidden;
+    background-color: #2a2a2a;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    border: 1px dashed #999;
+    transition: outline 0.15s;
+  }
+
+  .card.no-photo {
+    background: repeating-linear-gradient(
+      45deg,
+      #2a2a2a,
+      #2a2a2a 10px,
+      #333 10px,
+      #333 20px
+    );
+  }
+
+  .card.drag-over {
+    outline: 4px solid #4ade80;
+    outline-offset: -4px;
+  }
+
+  /* Background photo as a real img element — prints reliably */
+  .card-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  /* Top accent strip */
+  .card-accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4mm;
+    background: var(--accent);
+    z-index: 2;
+  }
+
+  /* Text block — solid dark band at bottom, easy to read on any photo */
+  .card-text {
+    position: relative;
+    z-index: 2;
+    background: rgba(20, 20, 20, 0.92);
+    color: white;
+    padding: 5mm 6mm 6mm;
+    margin: auto 4mm 4mm;
+    border-radius: 1mm;
+  }
+
+  /* When no photo, let the text block fill the card */
+  .card.no-photo .card-text {
+    background: transparent;
+    margin: auto 0 0;
+    padding: 8mm 7mm 7mm;
+  }
+
+  .cat-tag {
+    position: absolute;
+    top: 5mm;
+    right: 7mm;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 7pt;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--accent);
+    padding: 1.5mm 3mm;
+    font-weight: 700;
+    z-index: 3;
+    border-radius: 1mm;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.2);
+  }
+
+  .drop-hint {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: ui-monospace, monospace;
+    font-size: 9pt;
+    color: rgba(255,255,255,0.6);
+    text-align: center;
+    z-index: 2;
+    pointer-events: none;
+    border: 2px dashed rgba(255,255,255,0.3);
+    padding: 6mm 8mm;
+    border-radius: 2mm;
+  }
+  .card:not(.no-photo) .drop-hint { display: none; }
+
+  .photo-controls {
+    position: absolute;
+    top: 5mm;
+    left: 7mm;
+    z-index: 4;
+    display: flex;
+    gap: 4px;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .card:hover .photo-controls { opacity: 1; }
+  .card.no-photo .photo-controls { display: none; }
+
+  .photo-controls button {
+    background: rgba(0,0,0,0.7);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 3px 8px;
+    font-family: ui-monospace, monospace;
+    font-size: 9px;
+    cursor: pointer;
+    border-radius: 2px;
+  }
+  .photo-controls button:hover { background: rgba(0,0,0,0.9); }
+
+  /* Google Images search shortcut — visible on screen only */
+  .photo-search {
+    position: absolute;
+    bottom: 4mm;
+    right: 5mm;
+    z-index: 4;
+    background: rgba(0,0,0,0.7);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 3px 8px;
+    font-family: ui-monospace, monospace;
+    font-size: 9px;
+    text-decoration: none;
+    border-radius: 2px;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .card:hover .photo-search { opacity: 1; }
+  .photo-search:hover { background: rgba(0,0,0,0.9); }
+
+  .name {
+    font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+    font-size: 18pt;
+    line-height: 1.05;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 2.5mm 0;
+    letter-spacing: -0.01em;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.5);
+  }
+
+  .blurb {
+    font-size: 8.5pt;
+    line-height: 1.4;
+    color: rgba(255,255,255,0.95);
+    margin: 0 0 3mm 0;
+  }
+
+  .field {
+    padding-top: 2mm;
+    border-top: 1px solid var(--rule);
+    margin-top: 1mm;
+  }
+
+  .field-label {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 6.5pt;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 0.8mm;
+  }
+  .field-text {
+    font-size: 7.8pt;
+    line-height: 1.35;
+    color: rgba(255,255,255,0.9);
+  }
+
+  .card.sights  { --accent: var(--c-sights); }
+  .card.food    { --accent: var(--c-food); }
+  .card.kids    { --accent: var(--c-kids); }
+  .card.nature  { --accent: var(--c-nature); }
+  .card.culture { --accent: var(--c-culture); }
+
+  /* ---------- Print ---------- */
+  @media print {
+    body { background: white; }
+    .toolbar { display: none; }
+    .photo-controls, .drop-hint, .photo-search { display: none !important; }
+    .page {
+      margin: 0;
+      box-shadow: none;
+      /* @page already provides 10mm margins, so the page content area
+         is 190mm × 277mm. Trim a few mm off height to absorb browser
+         rounding and prevent overflow onto the next page. */
+      width: 190mm;
+      height: 273mm;
+      padding: 0;
+    }
+    .card,
+    .card-accent,
+    .card-text,
+    .cat-tag {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .card-photo {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <select id="deck-select" onchange="switchDeck(this.value)">
+    <option value="sg">Singapore</option>
+    <option value="kl">Kuala Lumpur</option>
+  </select>
+  <button onclick="window.print()" class="primary">Print / Save as PDF</button>
+  <button onclick="exportZip()">Export photos + JSON (.zip)</button>
+  <button onclick="clearAllPhotos()" class="danger">Clear all photos</button>
+  <span class="status" id="status">0 / 0 photos</span>
+  <span class="hint">
+    Drag image files onto any card. Photos save automatically in your browser (per deck).<br>
+    Click "Export" to download a zip → unzip next to this HTML → reload to use folder photos.
+  </span>
+</div>
+
+<div id="root"></div>
+
+<script>
+const CARDS_PER_PAGE = 4;
+
+// All decks embedded — populated at build time.
+const DECKS = DECKS_PLACEHOLDER;
+
+// Active deck state
+let currentDeck = 'sg';
+let ACTIVITIES = DECKS[currentDeck].activities;
+
+// ---------- IndexedDB helpers ----------
+const DB_NAME = 'activity-cards';
+const STORE = 'photos';
+
+function openDB() {
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open(DB_NAME, 1);
+    req.onupgradeneeded = () => req.result.createObjectStore(STORE);
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
+
+// Keys are scoped: "{deck}::{activity name}"
+function scopedKey(deck, name) { return `${deck}::${name}`; }
+
+async function dbPut(deck, name, blob) {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE, 'readwrite');
+    tx.objectStore(STORE).put(blob, scopedKey(deck, name));
+    tx.oncomplete = resolve;
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+async function dbDelete(deck, name) {
+  const db = await openDB();
+  return new Promise((resolve) => {
+    const tx = db.transaction(STORE, 'readwrite');
+    tx.objectStore(STORE).delete(scopedKey(deck, name));
+    tx.oncomplete = resolve;
+  });
+}
+
+// Return only entries for given deck, with the deck prefix stripped
+async function dbAllForDeck(deck) {
+  const db = await openDB();
+  return new Promise((resolve) => {
+    const tx = db.transaction(STORE, 'readonly');
+    const store = tx.objectStore(STORE);
+    const result = {};
+    const prefix = `${deck}::`;
+    store.openCursor().onsuccess = (e) => {
+      const cursor = e.target.result;
+      if (cursor) {
+        if (typeof cursor.key === 'string' && cursor.key.startsWith(prefix)) {
+          result[cursor.key.slice(prefix.length)] = cursor.value;
+        }
+        cursor.continue();
+      } else {
+        resolve(result);
+      }
+    };
+  });
+}
+
+async function dbClearDeck(deck) {
+  const db = await openDB();
+  return new Promise((resolve) => {
+    const tx = db.transaction(STORE, 'readwrite');
+    const store = tx.objectStore(STORE);
+    const prefix = `${deck}::`;
+    store.openCursor().onsuccess = (e) => {
+      const cursor = e.target.result;
+      if (cursor) {
+        if (typeof cursor.key === 'string' && cursor.key.startsWith(prefix)) {
+          cursor.delete();
+        }
+        cursor.continue();
+      } else {
+        resolve();
+      }
+    };
+  });
+}
+
+// ---------- Helpers ----------
+
+function slugify(name) {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+function extFor(blob, fallbackName = '') {
+  const m = (blob.type || '').match(/image\/(jpeg|jpg|png|webp|gif)/);
+  if (m) return m[1] === 'jpeg' ? 'jpg' : m[1];
+  const m2 = fallbackName.match(/\.(jpe?g|png|webp|gif)$/i);
+  if (m2) return m2[1].toLowerCase().replace('jpeg', 'jpg');
+  return 'jpg';
+}
+
+function photosFolderForDeck(deck) {
+  return `photos-${deck}`;
+}
+
+// ---------- State (per-deck, recreated on switch) ----------
+let photoBlobs = {};
+let photoObjectUrls = {};
+
+// ---------- Rendering ----------
+
+function renderCard(act, idx) {
+  const photoSrc = photoObjectUrls[act.name] || act.photo_url || '';
+  const noPhotoClass = photoSrc ? '' : 'no-photo';
+
+  const photoEl = photoSrc
+    ? `<img class="card-photo" src="${photoSrc}" alt="">`
+    : '';
+
+  // Bias Google Images search with the deck location for better results
+  const locationHint = DECKS[currentDeck].label;
+  const searchUrl = 'https://www.google.com/search?tbm=isch&q='
+    + encodeURIComponent(`${act.name} ${locationHint}`);
+
+  return `
+    <article class="card ${act.category} ${noPhotoClass}" data-idx="${idx}">
+      ${photoEl}
+      <div class="card-accent"></div>
+      <span class="cat-tag">${act.category}</span>
+      <div class="photo-controls">
+        <button onclick="replacePhoto(${idx})">Replace</button>
+        <button onclick="removePhoto(${idx})">Remove</button>
+      </div>
+      <a class="photo-search" href="${searchUrl}" target="_blank" rel="noopener">Find photo ↗</a>
+      <div class="drop-hint">Drag photo here</div>
+      <div class="card-text">
+        <h2 class="name">${act.name}</h2>
+        <p class="blurb">${act.blurb}</p>
+        <div class="field">
+          <div class="field-label">Tips</div>
+          <div class="field-text">${act.tips}</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Getting there</div>
+          <div class="field-text">${act.getting_there}</div>
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+function render() {
+  const root = document.getElementById('root');
+  let html = '';
+  for (let i = 0; i < ACTIVITIES.length; i += CARDS_PER_PAGE) {
+    const slice = ACTIVITIES.slice(i, i + CARDS_PER_PAGE);
+    html += '<section class="page">';
+    html += slice.map((a, j) => renderCard(a, i + j)).join('');
+    for (let k = slice.length; k < CARDS_PER_PAGE; k++) html += '<div></div>';
+    html += '</section>';
+  }
+  root.innerHTML = html;
+  attachDragHandlers();
+  updateStatus();
+}
+
+function updateStatus() {
+  const have = Object.keys(photoBlobs).length;
+  const total = ACTIVITIES.length;
+  const el = document.getElementById('status');
+  el.textContent = `${have} / ${total} photos · ${DECKS[currentDeck].label}`;
+  el.style.color = have === total ? '#4ade80' : (have > 0 ? '#fbbf24' : '#999');
+}
+
+// ---------- Deck switching ----------
+
+async function switchDeck(deck) {
+  if (!DECKS[deck]) return;
+  // Free old object URLs
+  Object.values(photoObjectUrls).forEach(URL.revokeObjectURL);
+  photoBlobs = {};
+  photoObjectUrls = {};
+
+  currentDeck = deck;
+  ACTIVITIES = DECKS[deck].activities;
+
+  // Load photos for new deck
+  const saved = await dbAllForDeck(deck);
+  for (const [name, blob] of Object.entries(saved)) {
+    if (ACTIVITIES.find(a => a.name === name)) {
+      photoBlobs[name] = blob;
+      photoObjectUrls[name] = URL.createObjectURL(blob);
+    }
+  }
+  // Persist preference
+  try { localStorage.setItem('activity-cards:deck', deck); } catch (e) {}
+  document.getElementById('deck-select').value = deck;
+  render();
+}
+
+// ---------- Drag/drop ----------
+
+function attachDragHandlers() {
+  document.querySelectorAll('.card').forEach(card => {
+    const idx = parseInt(card.dataset.idx);
+    if (isNaN(idx)) return;
+
+    card.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      card.classList.add('drag-over');
+    });
+    card.addEventListener('dragleave', () => card.classList.remove('drag-over'));
+    card.addEventListener('drop', async (e) => {
+      e.preventDefault();
+      card.classList.remove('drag-over');
+      const file = e.dataTransfer.files[0];
+      if (!file || !file.type.startsWith('image/')) {
+        alert('Please drop an image file (jpg, png, webp).');
+        return;
+      }
+      await setPhoto(idx, file);
+    });
+  });
+}
+
+async function setPhoto(idx, file) {
+  const act = ACTIVITIES[idx];
+  if (photoObjectUrls[act.name]) URL.revokeObjectURL(photoObjectUrls[act.name]);
+  photoBlobs[act.name] = file;
+  photoObjectUrls[act.name] = URL.createObjectURL(file);
+  await dbPut(currentDeck, act.name, file);
+  render();
+}
+
+async function removePhoto(idx) {
+  const act = ACTIVITIES[idx];
+  if (photoObjectUrls[act.name]) URL.revokeObjectURL(photoObjectUrls[act.name]);
+  delete photoBlobs[act.name];
+  delete photoObjectUrls[act.name];
+  await dbDelete(currentDeck, act.name);
+  render();
+}
+
+function replacePhoto(idx) {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+  input.onchange = async () => {
+    if (input.files[0]) await setPhoto(idx, input.files[0]);
+  };
+  input.click();
+}
+
+async function clearAllPhotos() {
+  if (!confirm(`Remove all uploaded photos for ${DECKS[currentDeck].label}? This cannot be undone.`)) return;
+  Object.values(photoObjectUrls).forEach(URL.revokeObjectURL);
+  photoBlobs = {};
+  photoObjectUrls = {};
+  await dbClearDeck(currentDeck);
+  render();
+}
+
+// ---------- Export ----------
+
+async function exportZip() {
+  if (typeof JSZip === 'undefined') {
+    alert('JSZip failed to load (you may be offline). The library loads from a CDN; reconnect and reload.');
+    return;
+  }
+
+  const zip = new JSZip();
+  const folderName = photosFolderForDeck(currentDeck);
+  const photosFolder = zip.folder(folderName);
+
+  // Build updated activities with photo_url pointing to ./photos-{deck}/...
+  const updated = ACTIVITIES.map(act => {
+    const blob = photoBlobs[act.name];
+    if (blob) {
+      const ext = extFor(blob, blob.name || '');
+      const filename = `${slugify(act.name)}.${ext}`;
+      photosFolder.file(filename, blob);
+      return { ...act, photo_url: `./${folderName}/${filename}` };
+    }
+    return { ...act, photo_url: act.photo_url || '' };
+  });
+
+  zip.file(`activities-${currentDeck}.json`, JSON.stringify(updated, null, 2));
+
+  // Patch the HTML so the embedded DECK[currentDeck] uses the new URLs
+  try {
+    const html = document.documentElement.outerHTML;
+    // Replace DECKS[currentDeck].activities array within the embedded DECKS literal
+    const updatedDecks = { ...DECKS };
+    updatedDecks[currentDeck] = { ...updatedDecks[currentDeck], activities: updated };
+    const newJsLiteral = `const DECKS = ${JSON.stringify(updatedDecks, null, 2)};`;
+    const patched = html.replace(
+      /const DECKS = \{[\s\S]*?\};(?=\s*\/\/)/,
+      newJsLiteral + ' //'
+    );
+    zip.file('activity-cards.html', patched);
+  } catch (e) {
+    console.warn('Could not patch HTML, skipping:', e);
+  }
+
+  const content = await zip.generateAsync({ type: 'blob' });
+  const url = URL.createObjectURL(content);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `activity-cards-${currentDeck}-export.zip`;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+// ---------- Init ----------
+
+async function init() {
+  // Restore last-used deck
+  let initialDeck = 'sg';
+  try {
+    const saved = localStorage.getItem('activity-cards:deck');
+    if (saved && DECKS[saved]) initialDeck = saved;
+  } catch (e) {}
+  await switchDeck(initialDeck);
+}
+
+init();
+</script>
+</body>
+</html>

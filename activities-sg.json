@@ -1,0 +1,242 @@
+[
+  {
+    "name": "Gardens by the Bay",
+    "category": "nature",
+    "blurb": "Iconic Supertree Grove plus two cooled conservatories — the Flower Dome and Cloud Forest with its indoor waterfall. The outdoor gardens are free; only the conservatories are ticketed.",
+    "tips": "Free Garden Rhapsody light show at the Supertrees daily at 7.45pm and 8.45pm. Buy conservatory tickets online for a small discount. Stroller-friendly throughout.",
+    "getting_there": "MRT Bayfront (CE1/DT16), Exit B. ~10 min walk via underground link.",
+    "photo_url": "./photos-sg/gardens-by-the-bay.jpg"
+  },
+  {
+    "name": "Singapore Zoo & River Wonders",
+    "category": "kids",
+    "blurb": "Open-concept zoo set in rainforest with elephants, orangutans, and a fragile forest walk-through. River Wonders next door has manatees and giant pandas.",
+    "tips": "Go at opening (8.30am) before it gets hot. Combo tickets save money if doing both. Tram is included and a lifesaver with tired kids.",
+    "getting_there": "MRT Khatib (NS14), then free shuttle bus. Or Grab — about 30 min from town.",
+    "photo_url": "./photos-sg/singapore-zoo-river-wonders.jpg"
+  },
+  {
+    "name": "Marina Bay Sands SkyPark",
+    "category": "sights",
+    "blurb": "Observation deck on the 57th floor with sweeping views of the bay, CBD skyline, and Gardens by the Bay from above.",
+    "tips": "Sunset (around 7pm) is best — you get city, sea, and night lights in one visit. Hotel guests access free; everyone else needs a ticket.",
+    "getting_there": "MRT Bayfront (CE1/DT16), Exit B or C. Tower 3, follow signage.",
+    "photo_url": "./photos-sg/marina-bay-sands-skypark.jpg"
+  },
+  {
+    "name": "Hawker Lunch at Maxwell Food Centre",
+    "category": "food",
+    "blurb": "Classic CBD hawker centre, famous for Tian Tian Hainanese Chicken Rice and a dozen other local legends in one spot.",
+    "tips": "Go before noon or after 1.30pm to dodge the office crowd. Bring tissue packets — that's how locals 'chope' (reserve) seats.",
+    "getting_there": "MRT Maxwell (TE17) or Tanjong Pagar (EW15). Right outside the station.",
+    "photo_url": "./photos-sg/hawker-lunch-at-maxwell-food-centre.jpg"
+  },
+  {
+    "name": "Universal Studios Singapore",
+    "category": "kids",
+    "blurb": "Theme park on Sentosa with seven themed zones — Sci-Fi City, Ancient Egypt, Hollywood and more. Mix of thrill rides and family-friendly attractions.",
+    "tips": "Express Pass is worth it on weekends. Bring a poncho — Jurassic Park Rapids will soak you. Lockers available near wet rides.",
+    "getting_there": "MRT HarbourFront (NE1/CC29), then Sentosa Express to Waterfront Station.",
+    "photo_url": "./photos-sg/universal-studios-singapore.webp"
+  },
+  {
+    "name": "Chinatown Heritage Walk",
+    "category": "culture",
+    "blurb": "Wander Pagoda Street's shophouses, visit Sri Mariamman Temple and the Buddha Tooth Relic Temple, then snack your way through the food street.",
+    "tips": "Cover shoulders and knees for temple visits. The Heritage Centre on Pagoda Street is a small but excellent museum if you want depth.",
+    "getting_there": "MRT Chinatown (NE4/DT19), Exit A.",
+    "photo_url": "./photos-sg/chinatown-heritage-walk.jpg"
+  },
+  {
+    "name": "Jewel Changi Airport",
+    "category": "sights",
+    "blurb": "Even non-travellers visit for the HSBC Rain Vortex — the world's tallest indoor waterfall — surrounded by a multi-level forest valley.",
+    "tips": "Canopy Park on level 5 has bouncing nets and mirror mazes — kids love it (separate ticket). Light & sound shows at the vortex hourly from 8pm.",
+    "getting_there": "MRT Changi Airport (CG2), follow signs to Jewel via T1.",
+    "photo_url": "./photos-sg/jewel-changi-airport.webp"
+  },
+  {
+    "name": "MacRitchie TreeTop Walk",
+    "category": "nature",
+    "blurb": "A free-standing suspension bridge in the rainforest, part of a 7km loop trail. Macaques, monitor lizards, and rainforest canopy views.",
+    "tips": "Start early — gets very humid. Don't carry visible food (monkeys will grab it). Wear proper shoes; trail is uneven in parts. Closed Mondays.",
+    "getting_there": "Bus 132, 165, 166 to Venus Drive, then 25 min walk to trailhead.",
+    "photo_url": "./photos-sg/macritchie-treetop-walk.webp"
+  },
+  {
+    "name": "Little India & Tekka Centre",
+    "category": "culture",
+    "blurb": "Vibrant streets of Indian shops, garland sellers, and gold jewellers. Tekka Centre downstairs has South Indian breakfasts; upstairs is a colourful wet market.",
+    "tips": "Go on Sunday for the most lively atmosphere. Don't miss the Sri Veeramakaliamman Temple. Banana leaf rice for lunch is the move.",
+    "getting_there": "MRT Little India (NE7/DT12), Exit C for Tekka.",
+    "photo_url": "./photos-sg/little-india-tekka-centre.webp"
+  },
+  {
+    "name": "Sentosa Beaches",
+    "category": "kids",
+    "blurb": "Three beaches — Siloso (busy, beach bars), Palawan (family, Suspension Bridge to a tiny southernmost-point islet), and Tanjong (quiet).",
+    "tips": "Palawan is best for young kids — calmer water and shaded play area. Free beach shuttle runs the length of the island.",
+    "getting_there": "MRT HarbourFront, Sentosa Express to Beach Station ($4 entry by Express; free if you walk via boardwalk).",
+    "photo_url": "./photos-sg/sentosa-beaches.jpg"
+  },
+  {
+    "name": "Lau Pa Sat Satay Street",
+    "category": "food",
+    "blurb": "Beautiful Victorian-era hawker centre. After 7pm the adjacent Boon Tat Street closes to traffic and turns into satay heaven with smoky charcoal grills.",
+    "tips": "Order from any one satay stall — they share tables. Pair with sugarcane juice. Cash speeds things up though most accept QR pay now.",
+    "getting_there": "MRT Telok Ayer (DT18) or Raffles Place (EW14/NS26).",
+    "photo_url": "./photos-sg/lau-pa-sat-satay-street.jpg"
+  },
+  {
+    "name": "KidZania (now KidZ@Play)",
+    "category": "kids",
+    "blurb": "Mini-city role-play centre where kids try out professions — pilot, firefighter, surgeon — and earn play currency. Best for ages 4–12.",
+    "tips": "Book a 4-hour slot for the full experience. Adults can sit in the cafe area; you don't follow them around. Bring a water bottle.",
+    "getting_there": "Currently relocated — check website for latest venue before going.",
+    "photo_url": "./photos-sg/kidzania-now-kidz-play.jpg"
+  },
+  {
+    "name": "Botanic Gardens & National Orchid Garden",
+    "category": "nature",
+    "blurb": "UNESCO World Heritage site with 160 years of history. The Orchid Garden inside has 1,000+ species. The main gardens are free and stroller-friendly.",
+    "tips": "Enter via Tanglin Gate for the heritage trees and swan lake. Jacob Ballas Children's Garden inside is excellent and also free.",
+    "getting_there": "MRT Botanic Gardens (CC19/DT9), Exit A.",
+    "photo_url": "./photos-sg/botanic-gardens-national-orchid-garden.webp"
+  },
+  {
+    "name": "ArtScience Museum",
+    "category": "culture",
+    "blurb": "Lotus-shaped museum at MBS. The permanent 'Future World' exhibit by teamLab is a digital wonderland — the kids will lose their minds.",
+    "tips": "Future World gets crowded after lunch — go right at opening (10am). Wear something comfortable; lots of sitting on the floor.",
+    "getting_there": "MRT Bayfront (CE1/DT16), Exit D.",
+    "photo_url": "./photos-sg/artscience-museum.jpg"
+  },
+  {
+    "name": "Haw Par Villa",
+    "category": "culture",
+    "blurb": "Eccentric Chinese mythology theme park from the 1930s, free entry. Famous for the gloriously gory '10 Courts of Hell' diorama. Wonderfully weird.",
+    "tips": "10 Courts ticketed (small fee) and may scare younger kids — preview first. Mostly outdoors, bring water and a hat.",
+    "getting_there": "MRT Haw Par Villa (CC25), Exit A.",
+    "photo_url": "./photos-sg/haw-par-villa.jpg"
+  },
+  {
+    "name": "Tiong Bahru Bakery + Estate Walk",
+    "category": "food",
+    "blurb": "Art deco housing estate (Singapore's oldest) full of indie cafes, bookshops, and the famous bakery's kouign-amann. Great morning stroll.",
+    "tips": "Bakery queue is fastest before 9am or after 3pm. The wet market hawker centre nearby is excellent for traditional breakfast (chwee kueh, lor mee).",
+    "getting_there": "MRT Tiong Bahru (EW17), 10 min walk to the estate.",
+    "photo_url": "./photos-sg/tiong-bahru-bakery-estate-walk.jpg"
+  },
+  {
+    "name": "Pulau Ubin Day Trip",
+    "category": "nature",
+    "blurb": "Tiny island off the northeast coast — feels like Singapore 50 years ago. Rent bikes and ride to Chek Jawa wetlands.",
+    "tips": "Bumboat leaves when 12 passengers gather (~$4 each way, cash). Bring insect repellent and water. Half a day is enough; full day if you cycle far.",
+    "getting_there": "MRT Tanah Merah (EW4), then bus 2 to Changi Village, then bumboat from Changi Point Ferry Terminal.",
+    "photo_url": "./photos-sg/pulau-ubin-day-trip.jpg"
+  },
+  {
+    "name": "Singapore Discovery Centre",
+    "category": "kids",
+    "blurb": "Hands-on science and history museum out west, with simulators, an outdoor water play area, and a 4D theatre. Underrated and rarely crowded.",
+    "tips": "Check exhibition rotation before going — keeps things fresh. Cafe options are limited; eat before or at nearby Joo Koon mall.",
+    "getting_there": "MRT Joo Koon (EW29), then bus 182. Or Grab from town (~30 min).",
+    "photo_url": "./photos-sg/singapore-discovery-centre.jpg"
+  },
+  {
+    "name": "East Coast Park Cycling",
+    "category": "nature",
+    "blurb": "15km coastal park with rental bikes (including kids' bikes and trailer attachments), beach, BBQ pits, and seafood restaurants.",
+    "tips": "Rent at Coastline Leisure or GoCycling. Avoid weekend afternoons — gets packed. Try Long Beach Seafood for chilli crab as a reward.",
+    "getting_there": "MRT Bedok (EW5), then bus 401 (weekends only) or Grab to ECP.",
+    "photo_url": "./photos-sg/east-coast-park-cycling.webp"
+  },
+  {
+    "name": "Kampong Glam & Haji Lane",
+    "category": "culture",
+    "blurb": "Historic Malay-Arab quarter around the gold-domed Sultan Mosque. Haji Lane next door is narrow and packed with murals, indie shops, and bars.",
+    "tips": "Visit the mosque outside prayer times; modest dress required. Try Zam Zam for murtabak — a Singapore classic since 1908.",
+    "getting_there": "MRT Bugis (EW12/DT14), Exit B.",
+    "photo_url": "./photos-sg/kampong-glam-haji-lane.webp"
+  },
+  {
+    "name": "National Gallery Singapore",
+    "category": "culture",
+    "blurb": "Southeast Asia's largest visual art museum, set in the gorgeously restored former Supreme Court and City Hall buildings.",
+    "tips": "Rooftop has free public access with great Padang views. Free entry for Singaporeans/PRs. Family activity guides at the info desk.",
+    "getting_there": "MRT City Hall (EW13/NS25), Exit B.",
+    "photo_url": "./photos-sg/national-gallery-singapore.jpg"
+  },
+  {
+    "name": "Mandai Wildlife West (Bird Paradise)",
+    "category": "kids",
+    "blurb": "Replaced the old Jurong Bird Park — eight massive walk-through aviaries with 3,500 birds. Penguins, hornbills, flamingos, lorikeets you can feed.",
+    "tips": "Go early (opens 9am). Penguin feeding times posted at entrance. Consider the Mandai pass if also visiting Zoo or Night Safari same trip.",
+    "getting_there": "MRT Springleaf (TE4) or Khatib (NS14), then Mandai Khatib Shuttle.",
+    "photo_url": "./photos-sg/mandai-wildlife-west-bird-paradise.webp"
+  },
+  {
+    "name": "Old Airport Road Food Centre",
+    "category": "food",
+    "blurb": "Locals' favourite hawker centre with multiple Michelin-mentioned stalls — try Hokkien mee, char kway teow, lor mee, and old-school ice kacang.",
+    "tips": "Lunchtime 12–1.30pm gets intense. Some legendary stalls close on specific weekdays — check before heading down.",
+    "getting_there": "MRT Dakota (CC8), Exit B, 5 min walk.",
+    "photo_url": "./photos-sg/old-airport-road-food-centre.jpg"
+  },
+  {
+    "name": "Marina Barrage Kite Flying",
+    "category": "kids",
+    "blurb": "Massive grass rooftop overlooking the bay — perfect for kite flying (sea breeze!), picnics, and watching the city light up at dusk.",
+    "tips": "Buy a cheap kite from a Daiso. Free entry, free parking. Sustainable Singapore Gallery downstairs has good toilets and aircon.",
+    "getting_there": "MRT Marina Bay (NS27/CE2/TE20), then 15 min walk or short Grab.",
+    "photo_url": "./photos-sg/marina-barrage-kite-flying.jpg"
+  },
+  {
+    "name": "Singapore Science Centre + Snow City",
+    "category": "kids",
+    "blurb": "Old but consistently good — hands-on physics, a Tesla coil show, butterfly garden. Snow City next door for sub-zero tubing if the kids haven't seen snow.",
+    "tips": "Allow 3+ hours for Science Centre alone. Snow City supplies jackets and boots — wear long pants and socks.",
+    "getting_there": "MRT Jurong East (NS1/EW24), 10 min walk.",
+    "photo_url": "./photos-sg/singapore-science-centre-snow-city.jpg"
+  },
+  {
+    "name": "Katong & Joo Chiat Peranakan Trail",
+    "category": "culture",
+    "blurb": "Pastel-coloured Peranakan shophouses on Koon Seng Road — the most photographed street in Singapore. Great laksa nearby at 328 Katong Laksa.",
+    "tips": "Mornings are best for photos (light + fewer cars). Combine with Rumah Bebe for Peranakan beadwork or Kim Choo for nyonya kueh.",
+    "getting_there": "MRT Marine Parade (TE26) or Grab from town.",
+    "photo_url": "./photos-sg/katong-joo-chiat-peranakan-trail.jpg"
+  },
+  {
+    "name": "Night Safari",
+    "category": "nature",
+    "blurb": "World's first nocturnal zoo. Tram ride through dimly lit habitats with rhinos, hyenas, and Asian elephants. Walking trails branch off.",
+    "tips": "Last entry 11.15pm but go for the 7.15pm slot to catch the Creatures of the Night show first. No flash photography on the tram.",
+    "getting_there": "MRT Khatib (NS14), then Mandai Khatib Shuttle.",
+    "photo_url": "./photos-sg/night-safari.jpg"
+  },
+  {
+    "name": "Geylang Serai Market",
+    "category": "food",
+    "blurb": "Largest Malay market in Singapore. Beautiful at any time, magical during Ramadan with the bazaar. Try mee siam, mee rebus, and kueh.",
+    "tips": "Wet market downstairs, cooked food upstairs. Joo Chiat Road just south has more eats — try nasi lemak at Boon Lay Power.",
+    "getting_there": "MRT Paya Lebar (EW8/CC9), Exit C.",
+    "photo_url": "./photos-sg/geylang-serai-market.jpg"
+  },
+  {
+    "name": "Fort Canning Park",
+    "category": "nature",
+    "blurb": "Historic hilltop park in the heart of town. The 'Tree Tunnel' spiral staircase is the city's most-photographed spot. Battlebox WW2 bunker tour available.",
+    "tips": "Tree Tunnel is at Park Connector entrance near River Valley. Battlebox tours need advance booking. Cool morning walk before town gets hot.",
+    "getting_there": "MRT Fort Canning (DT20) or Dhoby Ghaut (NS24/NE6/CC1).",
+    "photo_url": "./photos-sg/fort-canning-park.jpg"
+  },
+  {
+    "name": "Sungei Buloh Wetland Reserve",
+    "category": "nature",
+    "blurb": "Mangrove wetland in the far north — mudskippers, monitor lizards, kingfishers, and migratory birds (Sept–March). Free, peaceful, totally different vibe.",
+    "tips": "Bring binoculars if you have them. Boardwalks are stroller-friendly. Wear long sleeves at dusk — mosquitoes. Best in early morning.",
+    "getting_there": "MRT Kranji (NS7), then Kranji Countryside Express bus or short Grab.",
+    "photo_url": "./photos-sg/sungei-buloh-wetland-reserve.webp"
+  }
+]

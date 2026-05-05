@@ -336,12 +336,13 @@
     <option value="kl">Kuala Lumpur</option>
   </select>
   <button onclick="window.print()" class="primary">Print / Save as PDF</button>
+  <button onclick="loadJsonFromFile()">Load JSON…</button>
   <button onclick="exportZip()">Export photos + JSON (.zip)</button>
   <button onclick="clearAllPhotos()" class="danger">Clear all photos</button>
   <span class="status" id="status">0 / 0 photos</span>
   <span class="hint">
-    Drag image files onto any card. Photos save automatically in your browser (per deck).<br>
-    Click "Export" to download a zip → unzip next to this HTML → reload to use folder photos.
+    Drag image files onto any card. Photos save automatically (per deck).<br>
+    Edit activities-sg.json or activities-kl.json → reload (or click Load JSON…) to pick up changes.
   </span>
 </div>
 
@@ -356,6 +357,7 @@ const DECKS = DECKS_PLACEHOLDER;
 // Active deck state
 let currentDeck = 'sg';
 let ACTIVITIES = DECKS[currentDeck].activities;
+const dataSource = {}; // deck -> 'embedded' | 'fetched' | 'manual'
 
 // ---------- IndexedDB helpers ----------
 const DB_NAME = 'activity-cards';
@@ -520,7 +522,11 @@ function updateStatus() {
   const have = Object.keys(photoBlobs).length;
   const total = ACTIVITIES.length;
   const el = document.getElementById('status');
-  el.textContent = `${have} / ${total} photos · ${DECKS[currentDeck].label}`;
+  const src = dataSource[currentDeck] || 'embedded';
+  const srcLabel = src === 'fetched' ? '· from file'
+                 : src === 'manual'  ? '· manual override'
+                 : '';
+  el.textContent = `${have} / ${total} photos · ${DECKS[currentDeck].label} ${srcLabel}`.trim();
   el.style.color = have === total ? '#4ade80' : (have > 0 ? '#fbbf24' : '#999');
 }
 
@@ -663,9 +669,90 @@ async function exportZip() {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
+// ---------- JSON loading ----------
+
+// Try to fetch external JSON; return null if unavailable (file:// or 404)
+async function tryFetchJson(path) {
+  try {
+    const res = await fetch(path);
+    if (!res.ok) return null;
+    return await res.json();
+  } catch (e) {
+    return null;
+  }
+}
+
+// Load JSON via file picker (works under file://)
+function loadJsonFromFile() {
+  const deck = currentDeck;
+  const label = DECKS[deck].label;
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'application/json,.json';
+  input.onchange = async () => {
+    const file = input.files[0];
+    if (!file) return;
+    try {
+      const text = await file.text();
+      const data = JSON.parse(text);
+      if (!Array.isArray(data)) throw new Error('Expected an array');
+      DECKS[deck].activities = data;
+      dataSource[deck] = 'manual';
+      // Persist override in localStorage so reloads keep the manually-loaded JSON
+      try {
+        localStorage.setItem(`activity-cards:override:${deck}`, JSON.stringify(data));
+      } catch (e) {}
+      await switchDeck(deck);
+    } catch (e) {
+      alert(`Failed to load JSON: ${e.message}`);
+    }
+  };
+  input.click();
+}
+
+// Forget the manually-loaded JSON for the current deck and reload
+function resetJsonOverride() {
+  const deck = currentDeck;
+  try {
+    localStorage.removeItem(`activity-cards:override:${deck}`);
+  } catch (e) {}
+  location.reload();
+}
+
 // ---------- Init ----------
 
 async function init() {
+  // For each deck, try in order: localStorage override → fetched JSON → embedded
+  for (const deck of Object.keys(DECKS)) {
+    let activities = null;
+    let source = 'embedded';
+
+    // 1. localStorage override (set when user manually loaded a JSON)
+    try {
+      const raw = localStorage.getItem(`activity-cards:override:${deck}`);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) {
+          activities = parsed;
+          source = 'manual';
+        }
+      }
+    } catch (e) {}
+
+    // 2. Fetch external file
+    if (!activities) {
+      const fetched = await tryFetchJson(`./activities-${deck}.json`);
+      if (Array.isArray(fetched)) {
+        activities = fetched;
+        source = 'fetched';
+      }
+    }
+
+    // 3. Fall back to embedded
+    if (activities) DECKS[deck].activities = activities;
+    dataSource[deck] = source;
+  }
+
   // Restore last-used deck
   let initialDeck = 'sg';
   try {

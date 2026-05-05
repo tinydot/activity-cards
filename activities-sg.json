@@ -238,5 +238,133 @@
     "tips": "Bring binoculars if you have them. Boardwalks are stroller-friendly. Wear long sleeves at dusk — mosquitoes. Best in early morning.",
     "getting_there": "MRT Kranji (NS7), then Kranji Countryside Express bus or short Grab.",
     "photo_url": "./photos-sg/sungei-buloh-wetland-reserve.webp"
+  },
+  {
+    "name": "Burmese Buddhist Temple (Maha Sasana Ramsi)",
+    "category": "culture",
+    "blurb": "The only Burmese Buddhist temple outside Myanmar built in authentic Burmese style, housing the largest pure white marble Buddha statue outside Myanmar (10 tonnes, 11ft tall). Founded 1875, this site since 1988.",
+    "tips": "Free entry, daily 6.30am–9pm. Remove shoes before entering. Dress modestly. Weekday mornings are quietest. Sunday Dhamma classes for kids if you want to time a cultural visit.",
+    "getting_there": "MRT Novena (NS20), Exit B. Walk along Thomson Rd then turn into Tai Gin Rd — about 10 min total. 14 Tai Gin Road.",
+    "photo_url": ""
+  },
+  {
+    "name": "Buddha Tooth Relic Temple",
+    "category": "culture",
+    "blurb": "Tang dynasty-inspired Chinese Buddhist temple in Chinatown, completed 2007, housing what's believed to be a tooth relic of the Buddha. Stunning rooftop orchid garden and a small museum inside.",
+    "tips": "Free entry. Modest dress required (free shawls available). Don't miss the rooftop garden and giant prayer wheel. Vegetarian canteen on site is cheap and good.",
+    "getting_there": "MRT Chinatown (NE4/DT19), Exit A. 5 min walk down South Bridge Road.",
+    "photo_url": ""
+  },
+  {
+    "name": "Thian Hock Keng Temple",
+    "category": "culture",
+    "blurb": "Singapore's oldest Hokkien temple (1842), built without nails using traditional southern Chinese architecture. Dedicated to Mazu, goddess of the sea — sailors prayed here before reclamation moved the coastline.",
+    "tips": "Free entry, daily 7.30am–5pm. The mural along the rear wall depicting early Singapore migrants is exceptional. Le Shan cafe next door for a quiet coffee.",
+    "getting_there": "MRT Telok Ayer (DT18), 3 min walk. 158 Telok Ayer Street.",
+    "photo_url": ""
+  },
+  {
+    "name": "Kong Meng San Phor Kark See Monastery",
+    "category": "culture",
+    "blurb": "Singapore's largest Buddhist monastery, sprawling complex with multiple halls, pagodas, koi ponds, and a vegetarian restaurant. Surprisingly tranquil despite being in the middle of the city.",
+    "tips": "Free entry. The Hall of No Form with its 10,000 Buddhas is the highlight. Bright Hill is enormous — allow at least 90 min. Vegetarian buffet on the basement level is excellent and cheap.",
+    "getting_there": "MRT Bishan (NS17/CC15), then bus 410 (weekends only) or short Grab.",
+    "photo_url": ""
+  },
+  {
+    "name": "Singapore DUCKtours",
+    "category": "kids",
+    "blurb": "Amphibious WWII-style vehicle that drives through Marina Bay area, then splashes into the water for a marine tour. Cheesy quacking sounds, but kids genuinely love it.",
+    "tips": "Tour is about 60 min. Sit in the front rows for best views. Loud quacker horns are handed out — adjust expectations accordingly. Departs from Suntec City.",
+    "getting_there": "MRT Promenade (CC4/DT15) or Esplanade (CC3). Tickets at the Suntec City counter.",
+    "photo_url": ""
+  },
+  {
+    "name": "Big Bus / Hop-On Hop-Off Tour",
+    "category": "sights",
+    "blurb": "Open-top double-decker bus loops covering Marina Bay, Chinatown, Little India, Orchard Road, and the Civic District. Good orientation tour for first-time visitors.",
+    "tips": "1- and 2-day passes available. Sit on the upper deck but bring sun protection — it gets brutal at midday. Audio commentary via earbuds. Less useful if you already know the city.",
+    "getting_there": "Multiple boarding stops; Suntec City and Orchard Road are the most convenient starts.",
+    "photo_url": ""
+  },
+  {
+    "name": "Singapore Flyer",
+    "category": "sights",
+    "blurb": "165m-tall observation wheel — once the world's largest — with views over Marina Bay, the F1 circuit, and on a clear day, parts of Indonesia and Malaysia. One full rotation takes about 30 min.",
+    "tips": "Sunset slots offer the best views but cost more. Air-conditioned capsules are stroller-friendly. Combo deals with dining inside the capsule available if you're feeling fancy.",
+    "getting_there": "MRT Promenade (CC4/DT15), Exit A, 5 min walk.",
+    "photo_url": ""
+  },
+  {
+    "name": "Madame Tussauds Singapore",
+    "category": "sights",
+    "blurb": "Wax museum on Sentosa with 80+ figures — Hollywood, K-pop, Bollywood, sports, plus local icons like Lee Kuan Yew. Includes the indoor 'Spirit of Singapore' boat ride and Marvel 4D.",
+    "tips": "Book online for big discounts (often 30–50% off the gate price). Allow 1.5–2 hours. The Images of Singapore historical section is more substantial than expected — kids may find it draggy.",
+    "getting_there": "Sentosa Express to Imbiah Station, short walk to Imbiah Lookout.",
+    "photo_url": ""
+  },
+  {
+    "name": "Dopamine Land",
+    "category": "kids",
+    "blurb": "Multi-sensory immersive exhibition with 9 themed rooms — pillow fight arena, neon ball pit, infinity mirror cosmos, dance floor. Equally fun for kids and adults chasing photo ops.",
+    "tips": "Open Wed–Mon (closed Tuesdays), 11am–9pm. Allow ~45 min to 1.5 hr. Socks required (bring grip socks or buy on-site). Toddlers under 2 free. Combine with Sentosa attractions same day.",
+    "getting_there": "Sentosa Express to Resorts World Station, walk to WEAVE @ RWS, Level 2.",
+    "photo_url": ""
+  },
+  {
+    "name": "Animal Cafés (Cat / Dog / Reptile)",
+    "category": "kids",
+    "blurb": "Singapore has several themed pet cafés — The Cat Café in Bugis, We Are The Furballs (cats) in Bugis+, and various dog-friendly cafés in Tiong Bahru. Hands-on time with animals plus drinks.",
+    "tips": "Most charge entry fees + minimum order. Time slots required at popular cafés — book online. Hand sanitiser is mandatory. Better with kids 5+; younger ones can be too rough for the cats.",
+    "getting_there": "MRT Bugis (EW12/DT14) for the main cluster of cat cafés.",
+    "photo_url": ""
+  },
+  {
+    "name": "Henna Painting in Little India",
+    "category": "culture",
+    "blurb": "Stalls along Buffalo Road and inside Tekka Centre offer henna body art (mehndi) for tourists and locals — intricate floral and paisley designs that last 1–2 weeks.",
+    "tips": "Prices range $10–40+ depending on size and detail. Negotiate before they start. Designs darken over 24–48 hours. Avoid 'black henna' — real henna is brown/orange-red.",
+    "getting_there": "MRT Little India (NE7/DT12), Exit C — stalls are immediately around Tekka.",
+    "photo_url": ""
+  },
+  {
+    "name": "Tiong Bahru & Dempsey Café Hopping",
+    "category": "food",
+    "blurb": "Two of Singapore's best café neighbourhoods. Tiong Bahru: indie bakeries and minimalist coffee in a heritage estate. Dempsey: leafy former British army barracks with brunch institutions like PS Cafe.",
+    "tips": "Tiong Bahru is walkable; Dempsey needs a Grab between spots. Weekday mornings are blissfully quiet. PS Cafe Harding Road for the iconic forest setting.",
+    "getting_there": "Tiong Bahru: MRT Tiong Bahru (EW17). Dempsey: Grab from Orchard Road.",
+    "photo_url": ""
+  },
+  {
+    "name": "Southern Ridges Nature Walk",
+    "category": "nature",
+    "blurb": "10km elevated forest trail connecting Mount Faber, Telok Blangah Hill, Kent Ridge Park, and HortPark. Includes the iconic curved Henderson Waves bridge — Singapore's highest pedestrian bridge.",
+    "tips": "Start at HarbourFront and exit at Kent Ridge — mostly downhill that direction. Allow 2–3 hours. Sunset on Henderson Waves is unbeatable. Stroller-unfriendly in parts.",
+    "getting_there": "MRT HarbourFront (NE1/CC29), Exit D, 10 min walk to Marang Trail.",
+    "photo_url": ""
+  },
+  {
+    "name": "Coney Island Park",
+    "category": "nature",
+    "blurb": "Wild, undeveloped 80-hectare island in the northeast connected by bridges. Boardwalks through casuarina forest, beaches, and even a free-roaming Brahman cow population. Feels nothing like Singapore.",
+    "tips": "Rent bikes from Punggol Point for the best experience. Bring water and repellent. No food stalls inside — eat at Punggol Point Park before/after. Best in cooler morning hours.",
+    "getting_there": "MRT Punggol (NE17), then LRT to Punggol Point Park, walk across the bridge.",
+    "photo_url": ""
+  },
+  {
+    "name": "Kayaking at Pasir Ris / Changi",
+    "category": "nature",
+    "blurb": "Calm coastal kayaking through mangroves at Pasir Ris Park or along Changi's old beach. Several rental outfits offer guided sunset paddles or self-rental for experienced paddlers.",
+    "tips": "Kayasia and Asia Detour Kayak Outfitters operate guided trips. Tides matter — check schedule before going. Sunset paddle into the Straits of Johor is magical. Book ahead on weekends.",
+    "getting_there": "MRT Pasir Ris (EW1) for Pasir Ris Park; Grab to Changi Beach Park.",
+    "photo_url": ""
+  },
+  {
+    "name": "Clarke Quay & Boat Quay Nightlife",
+    "category": "culture",
+    "blurb": "Two adjacent riverside districts of restored shophouses turned bars, clubs, and restaurants. Clarke Quay leans party (Zouk, big clubs); Boat Quay is more laid-back with riverside dining.",
+    "tips": "Cover charges at clubs but often include 1–2 drinks. Smith Street near Chinatown also has rooftop bars. River taxi between Clarke Quay and Marina Bay is a fun way to bar-hop.",
+    "getting_there": "MRT Clarke Quay (NE5) or Raffles Place (EW14/NS26) for Boat Quay.",
+    "photo_url": ""
   }
 ]
